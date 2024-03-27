@@ -1,0 +1,27 @@
+---
+group:
+  - name: Nathan Chu
+    netid: nwc35
+  - name: Cindy Li
+    netid: cl2674
+  - name: Emil Jiang
+    netid: eyj7
+pm:
+  name: Jonathan Yen
+  netid: jfy7
+publish: false
+title: "The OCaml IDE Chatbot Extension"
+git-repo: "https://github.com/EmilJiang/cs3110-final-real"
+demo-video-url: ""
+desc: >
+  Our project is a virtual chatbot to assist in coding as an IDE extension 
+  for Visual Studio Code. The user simply needs to open the chat box for the 
+  application to run, and from then on, the virtual assistant can help with creating 
+  specifications, unit tests, solving bugs, git commits, and more. 
+
+  The project integrates with Open AI, and we aim to launch this product to 
+  actual users.
+note: |
+  There are two branches in the github. The main branch includes all the
+  code with OpenAI, while the ide-extension-framework branch includes the 
+  code with bindings from OCaml to JS for the IDE extension.
