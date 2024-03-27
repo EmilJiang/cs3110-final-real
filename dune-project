@@ -1,26 +1,24 @@
-(lang dune 3.14)
+(lang dune 3.8)
 
-(name final_project_test)
+(using melange 0.1)
 
 (generate_opam_files true)
 
-(source
- (github username/reponame))
+(name helloworld-sample)
 
-(authors "Author Name")
+(license "MIT")
 
-(maintainers "Maintainer Name")
+(maintainers Thibaut Mattio)
 
-(license LICENSE)
+(authors Thibaut Mattio)
 
-(documentation https://url/to/documentation)
+(homepage https://github.com/tmattio/helloworld-sample)
+
+(bug_reports https://github.com/tmattio/helloworld-sample/issues)
 
 (package
- (name final_project_test)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml dune)
- (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/dune-files.html#dune-project
+ (allow_empty)
+ (name helloworld-sample)
+ (synopsis "HelloWorld example for VS Code")
+ (description "HelloWorld example for VS Code")
+ (depends melange))
