@@ -10,7 +10,9 @@
 
 5. "pip3 install openai"
 
-6. Type in "dune exec bin/main.exe" into the terminal
+6. Go to APIKEY.txt and copy the key to main.ml on line 17, in the empty ""
+
+7. Type in "dune exec bin/main.exe" into the terminal
 
 Note: This terminal integration does not allow multiline inputs. This restraint 
 is only valid for terminal. Any other UI usage multiline is enabled.
