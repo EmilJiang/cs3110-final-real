@@ -1,0 +1,52 @@
+commit 0287c90057b5568142982d6e720d45079b5b875f
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Wed Mar 27 20:09:05 2024 -0400
+
+    Remove virtual enviroment and Bougue which causes error
+    
+    - Removed buggy code
+    - Removed excess unused files
+
+commit 0a63a3dcfa04af324a470c41e06c8b21408a3840
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Mar 27 20:05:43 2024 -0400
+
+    Modify INSTALL.txt and add project.yaml file
+    
+    - Commited project.yaml to main branch
+    - Added OpenAPI information to install.txt
+
+
+commit 36357eb35a69265d9d2800bd45bb2508a2e634f0
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Mar 27 19:39:55 2024 -0400
+
+    Add project.yaml file
+    
+    - Specified group information
+    - Added project description and details
+
+commit 1c8684d2098f65440e49a5843ecb46d762b66c76
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed Mar 27 19:35:49 2024 -0400
+
+    Create IDE framework 
+    - Took code from pre-existing IDE OCaml to JS bindings
+    - Added installation instructions and project.yaml file
+
+commit 2474979b601136feec042323f5ab2be0c7b71feb
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Wed Mar 27 11:17:08 2024 -0400
+
+    Test Bougue UI
+    
+    -Implemented a main function which builds a UI that displays Hello World and a check box
+
+commit cc953c2b4d8e25031bc157f48c1fb17315e7f0c4
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Mon Mar 25 19:24:32 2024 -0400
+
+    Establish terminal connection with openAI API
+    
+    - developed code in main.ml which utilized pyml
+    - enabled user input to get the questions to feed into the openAI API
