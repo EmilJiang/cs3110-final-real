@@ -13,11 +13,14 @@ let activate (context : Vscode.ExtensionContext.t) =
   (* The commandId parameter must match the command field in package.json *)
   let disposable =
     Vscode.Commands.registerCommand "extension.helloWorld" (fun _ ->
-        (* The code you place here will be executed every time your command is
-           executed *)
-        (* ... *)
-        (* Display a message box to the user *)
-        Vscode.Window.showInformationMessage "Hello World!")
+        Vscode.Window.showInformationMessage "Hello World!";
+        Vscode.Window.createTerminal "MyTerminal" |> ignore;
+        Vscode.Window.activeTerminal ()
+        |> Js.Promise.then_ (fun () ->
+               Vscode.Window.sendTextToTerminal "hi";
+               Js.Promise.resolve ())
+        |> ignore)
   in
+
   Js.Array.push ~value:disposable
     (Vscode.ExtensionContext.subscriptions context)

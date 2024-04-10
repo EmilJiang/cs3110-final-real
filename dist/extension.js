@@ -7,6 +7,12 @@ function activate(context) {
   console.log("Congratulations, your extension \"helloworld-sample\" is now active!");
   var disposable = Vscode.commands.registerCommand("extension.helloWorld", (function (param) {
           Vscode.window.showInformationMessage("Hello World!");
+          Vscode.window.createTerminal("MyTerminal");
+          Vscode.window.activeTerminal().then(function (param) {
+                Vscode.window.sendTextToTerminal("hi");
+                Vscode.window.showInformationMessage("Sent \"hi\" to terminal!");
+                return Promise.resolve(undefined);
+              });
         }));
   return context.subscriptions.push(disposable);
 }
