@@ -1,4 +1,4 @@
 (executable
  (public_name final_project_test)
  (name main)
- (libraries final_project_test pyml bogue))
+ (libraries final_project_test pyml raygui raylib))
