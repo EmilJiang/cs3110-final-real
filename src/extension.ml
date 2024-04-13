@@ -13,14 +13,12 @@ let activate (context : Vscode.ExtensionContext.t) =
   (* The commandId parameter must match the command field in package.json *)
   let disposable =
     Vscode.Commands.registerCommand "extension.helloWorld" (fun _ ->
-        Vscode.Window.showInformationMessage "Hello World!";
-        Vscode.Window.createTerminal "MyTerminal" |> ignore;
-        Vscode.Window.activeTerminal ()
-        |> Js.Promise.then_ (fun () ->
-               Vscode.Window.sendTextToTerminal "hi";
-               Js.Promise.resolve ())
-        |> ignore)
+        Vscode.Window.showInformationMessage "Extension Activated!" |> ignore;
+
+        let terminal = Vscode.Window.createTerminal "AI Assistant" in
+        Vscode.Terminal.show terminal ~preserveFocus:true ())
   in
 
   Js.Array.push ~value:disposable
     (Vscode.ExtensionContext.subscriptions context)
+  |> ignore
