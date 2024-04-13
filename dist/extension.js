@@ -6,11 +6,14 @@ var Vscode = require("vscode");
 function activate(context) {
   console.log("Congratulations, your extension \"helloworld-sample\" is now active!");
   var disposable = Vscode.commands.registerCommand("extension.helloWorld", (function (param) {
-          Vscode.window.showInformationMessage("Extension Activated!");
-          var terminal = Vscode.window.createTerminal("AI Assistant");
-          Vscode.window.show(terminal, true);
-        }));
-  context.subscriptions.push(disposable);
+    Vscode.window.showInformationMessage("Hello World!");
+    Vscode.window.createTerminal("MyTerminal");
+    Vscode.window.activeTerminal().then(function (param) {
+      Vscode.window.sendTextToTerminal("hi");
+      Vscode.window.showInformationMessage("Sent \"hi\" to terminal!");
+      return Promise.resolve(undefined);
+    });
+  }));
 }
 
 exports.activate = activate;
