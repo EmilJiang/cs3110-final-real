@@ -1,5 +1,10 @@
 # Installation Steps:
 
+
+- opam install raylib, raygui 
+- must have python version 3.11 (NOT 3.12)
+
+
 1. Navigate to the final_project folder in terminal
 
 2. Type in "opam install pyml"
