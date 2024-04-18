@@ -48,11 +48,6 @@ let courses =
 (**let height = 560*)
 let width = 690
 
-let setup () =
-  let open Raylib in
-  init_window 800 600 "Courses Recc List";
-  set_target_fps 60
-
 let draw_course (x, y, width, height) course =
   let open Raylib in
   draw_rectangle x y width height Color.skyblue;
@@ -66,33 +61,27 @@ let draw_course (x, y, width, height) course =
 
 let main_loop courses =
   let open Raylib in
-  setup ();
+  begin_drawing ();
+  clear_background Color.raywhite;
 
-  while not (window_should_close ()) do
-    begin_drawing ();
-    clear_background Color.raywhite;
+  let header_text = "Courses Recommended For You" in
+  let text_size = Raylib.measure_text header_text 20 in
+  let text_x = ((width - text_size) / 2) + 50 in
+  let text_y = 20 in
 
-    let header_text = "Courses Recommended For You" in
-    let text_size = Raylib.measure_text header_text 20 in
-    let text_x = ((width - text_size) / 2) + 50 in
-    let text_y = 20 in
+  Raylib.draw_text header_text text_x text_y 20 Raylib.Color.black;
 
-    Raylib.draw_text header_text text_x text_y 20 Raylib.Color.black;
+  let course_height = 100 in
+  let spacing = 20 in
+  let header_space = 50 in
 
-    let course_height = 100 in
-    let spacing = 20 in
-    let header_space = 50 in
+  List.iteri
+    (fun i course ->
+      let x = (get_screen_width () - 800) / 2 in
+      let y = text_y + header_space + (i * (course_height + spacing)) in
+      draw_course (x, y, 800, course_height) course)
+    courses;
 
-    List.iteri
-      (fun i course ->
-        let x = (get_screen_width () - 800) / 2 in
-        let y = text_y + header_space + (i * (course_height + spacing)) in
-        draw_course (x, y, 800, course_height) course)
-      courses;
+  end_drawing ()
 
-    end_drawing ()
-  done;
-
-  close_window ()
-
-let () = main_loop courses
+let start_list_page () = main_loop courses
