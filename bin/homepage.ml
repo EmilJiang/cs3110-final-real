@@ -1,5 +1,10 @@
+let setup () =
+  let open Raylib in
+  set_target_fps 60
+
 let draw_home_page frame_count =
   let open Raylib in
+  let font = load_font_ex "sugarcreamfont.otf" 20 None in
   let text1 = "The" in
   let text2 = "BIG RED" in
   let text3 = "Planner" in
@@ -16,8 +21,10 @@ let draw_home_page frame_count =
   let colors = [| Color.red; Color.black; Color.maroon |] in
   let animated_color = colors.(cycle) in
 
-  draw_text text1 x1 y1 base_font_size Color.red;
-  draw_text text2
+  draw_text_ex font text1
+    (Vector2.create (float_of_int x1) (float_of_int y1))
+    Color.red;
+  draw_text_ex font text2
     ((get_screen_width () - measure_text text2 animated_size) / 2)
     (((y1 + y3) / 2) + 20 - (animated_size / 2))
     animated_size animated_color;
@@ -32,6 +39,7 @@ let draw_home_page frame_count =
 
 let main_loop () =
   let open Raylib in
+  setup ();
   let frame_count = ref 0 in
 
   begin_drawing ();
