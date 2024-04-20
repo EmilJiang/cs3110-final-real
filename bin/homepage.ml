@@ -1,8 +1,3 @@
-let setup () =
-  let open Raylib in
-  init_window 800 600 "The Big Red Planner";
-  set_target_fps 60
-
 let draw_home_page frame_count =
   let open Raylib in
   let text1 = "The" in
@@ -37,19 +32,13 @@ let draw_home_page frame_count =
 
 let main_loop () =
   let open Raylib in
-  setup ();
-
   let frame_count = ref 0 in
 
-  while not (window_should_close ()) do
-    begin_drawing ();
-    clear_background Color.raywhite;
-    draw_home_page !frame_count;
-    end_drawing ();
+  begin_drawing ();
+  clear_background Color.raywhite;
+  draw_home_page !frame_count;
+  end_drawing ();
 
-    incr frame_count
-  done;
+  incr frame_count
 
-  close_window ()
-
-let () = main_loop ()
+let start_homepage () = main_loop ()

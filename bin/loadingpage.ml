@@ -1,7 +1,6 @@
 let setup () =
   let open Raylib in
-  init_window 800 600 "Loading Animation";
-  set_target_fps 2
+  set_target_fps 5
 
 let draw_loading_text count =
   let open Raylib in
@@ -18,10 +17,11 @@ let main_loop () =
   let open Raylib in
   setup ();
 
-  let counter = ref 10 in
+  let counter = ref 0 in
 
-  while not (window_should_close ()) do
+  while counter <= ref 10 do
     begin_drawing ();
+
     clear_background Color.raywhite;
 
     draw_loading_text !counter;
@@ -29,8 +29,6 @@ let main_loop () =
     end_drawing ();
 
     incr counter
-  done;
+  done
 
-  close_window ()
-
-let () = main_loop ()
+let start_loading_page () = main_loop ()

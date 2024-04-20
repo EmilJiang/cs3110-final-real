@@ -50,33 +50,26 @@ let draw_course (x, y, width, height) course =
   draw_text wrapped_text (x + 10) (name_text_y + 50) 20 Color.black
 
 let main_loop course =
-  init_window width height "Course Details";
-  set_target_fps 60;
+  begin_drawing ();
+  clear_background Color.raywhite;
 
-  while not (window_should_close ()) do
-    begin_drawing ();
-    clear_background Color.raywhite;
+  let course_height = 400 in
 
-    let course_height = 400 in
+  let x = (width - 800) / 2 in
+  let y = 50 in
+  draw_course (x, y, 800, course_height) course;
 
-    let x = (width - 800) / 2 in
-    let y = 50 in
-    draw_course (x, y, 800, course_height) course;
+  let button_width = 250 in
+  let button_height = 40 in
+  let button_x = (width - button_width) / 2 in
+  let button_y = height - 80 in
+  draw_rectangle button_x button_y button_width button_height Color.darkgray;
+  let button_text = " < Go back to course list" in
+  let text_size = measure_text button_text 20 in
+  let text_x = button_x + ((button_width - text_size) / 2) - 2 in
+  let text_y = button_y + ((button_height - 20) / 2) in
+  draw_text button_text text_x text_y 20 Color.white;
 
-    let button_width = 250 in
-    let button_height = 40 in
-    let button_x = (width - button_width) / 2 in
-    let button_y = height - 80 in
-    draw_rectangle button_x button_y button_width button_height Color.darkgray;
-    let button_text = " < Go back to course list" in
-    let text_size = measure_text button_text 20 in
-    let text_x = button_x + ((button_width - text_size) / 2) - 2 in
-    let text_y = button_y + ((button_height - 20) / 2) in
-    draw_text button_text text_x text_y 20 Color.white;
+  end_drawing ()
 
-    end_drawing ()
-  done;
-
-  close_window ()
-
-let () = main_loop cs_2800
+let start_description_page () = main_loop cs_2800
