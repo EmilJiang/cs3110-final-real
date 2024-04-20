@@ -1,4 +1,4 @@
 (executable
  (public_name final_project_test)
- (name pages)
+ (name homepage)
  (libraries final_project_test pyml raygui raylib))

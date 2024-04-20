@@ -1,53 +1,34 @@
 let setup () =
   let open Raylib in
-  init_window 800 600 "The Big Red Planner";
-  set_target_fps 60
+  init_window 800 600 "Loading Animation";
+  set_target_fps 2
 
-let draw_home_page frame_count =
+let draw_loading_text count =
   let open Raylib in
-  let text1 = "The" in
-  let text2 = "BIG RED" in
-  let text3 = "Planner" in
-  let base_font_size = 40 in
-  let text1_width = measure_text text1 base_font_size in
-  let text3_width = measure_text text3 base_font_size in
-  let x1 = (get_screen_width () - text1_width) / 2 in
-  let x3 = (get_screen_width () - text3_width) / 2 in
-  let y1 = get_screen_height () / 5 in
-  let y3 = get_screen_height () / 2 in
-
-  let cycle = frame_count / 10 mod 3 in
-  let animated_size = base_font_size + (cycle * 5) in
-  let colors = [| Color.red; Color.black; Color.maroon |] in
-  let animated_color = colors.(cycle) in
-
-  draw_text text1 x1 y1 base_font_size Color.red;
-  draw_text text2
-    ((get_screen_width () - measure_text text2 animated_size) / 2)
-    (((y1 + y3) / 2) + 20 - (animated_size / 2))
-    animated_size animated_color;
-  draw_text text3 x3 y3 base_font_size Color.red;
-
-  let button_width = 100 in
-  let button_height = 40 in
-  let button_x = (get_screen_width () - button_width) / 2 in
-  let button_y = y3 + base_font_size + 20 in
-  draw_rectangle button_x button_y button_width button_height Color.darkgray;
-  draw_text "Start" (button_x + 10) (button_y + 10) 20 Color.white
+  let base_text = "Loading" in
+  let dots = String.make (count mod 4) '.' in
+  let full_text = base_text ^ dots in
+  let font_size = 50 in
+  let text_width = measure_text full_text font_size in
+  let x = (get_screen_width () - text_width) / 2 in
+  let y = (get_screen_height () - font_size) / 2 in
+  draw_text full_text x y font_size Color.black
 
 let main_loop () =
   let open Raylib in
   setup ();
 
-  let frame_count = ref 0 in
+  let counter = ref 10 in
 
   while not (window_should_close ()) do
     begin_drawing ();
     clear_background Color.raywhite;
-    draw_home_page !frame_count;
+
+    draw_loading_text !counter;
+
     end_drawing ();
 
-    incr frame_count
+    incr counter
   done;
 
   close_window ()
