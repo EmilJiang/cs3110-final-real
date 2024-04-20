@@ -43,6 +43,7 @@ let courses =
          heuristics, and online algorithms).\n\n\
         \      ";
     };
+    { name = "CS SOmething"; description = "something" };
   ]
 
 (**let height = 560*)
