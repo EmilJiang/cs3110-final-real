@@ -1,9 +1,4 @@
-type course = {
-  name : string;
-  description : string;
-}
-
-let courses =
+let (courses : Course.t list) =
   [
     {
       name = "CS 2800 - Discrete Mathematics";
@@ -49,7 +44,7 @@ let courses =
 (**let height = 560*)
 let width = 690
 
-let draw_course (x, y, width, height) course =
+let draw_course (x, y, width, height) (course : Course.t) =
   let open Raylib in
   draw_rectangle x y width height Color.skyblue;
 
@@ -60,7 +55,7 @@ let draw_course (x, y, width, height) course =
 
   draw_text text text_x text_y 20 Color.darkblue
 
-let main_loop courses =
+let main_loop lst_of_courses =
   let open Raylib in
   begin_drawing ();
   clear_background Color.raywhite;
@@ -81,8 +76,8 @@ let main_loop courses =
       let x = (get_screen_width () - 800) / 2 in
       let y = text_y + header_space + (i * (course_height + spacing)) in
       draw_course (x, y, 800, course_height) course)
-    courses;
+    lst_of_courses;
 
   end_drawing ()
 
-let start_list_page () = main_loop courses
+let start_list_page lst_of_courses = main_loop lst_of_courses

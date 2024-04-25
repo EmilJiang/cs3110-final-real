@@ -1,11 +1,6 @@
 open Raylib
 
-type course = {
-  name : string;
-  description : string;
-}
-
-let cs_2800 : course =
+let cs_2800 : Course.t =
   {
     name = "CS 2800 - Discrete Mathematics";
     description =
@@ -35,7 +30,7 @@ let wrap_text text max_width =
   let lines = split_lines words [] 0 [] in
   String.concat "\n" (List.map (String.concat " ") lines)
 
-let draw_course (x, y, width, height) course =
+let draw_course (x, y, width, height) (course : Course.t) =
   draw_rectangle x y width height Color.skyblue;
 
   let name_text = course.name in
@@ -72,4 +67,4 @@ let main_loop course =
 
   end_drawing ()
 
-let start_description_page () = main_loop cs_2800
+let start_description_page course_list = main_loop course_list
