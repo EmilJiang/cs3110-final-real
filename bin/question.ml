@@ -78,6 +78,69 @@ let setup () =
   }
 
 let count_characters s = String.length s
+let round_up_division dividend divisor = (dividend + divisor - 1) / divisor
+
+let print_string_character_by_character s =
+  let char_seq = String.to_seq s in
+  Seq.iter
+    (fun c ->
+      print_char c;
+      print_newline ())
+    char_seq
+
+let is_printable c =
+  let code = Char.code c in
+  code >= 32 && code <= 126
+
+let remove_hidden_characters s =
+  let rec helper i acc =
+    if i >= String.length s then acc
+    else
+      let char = String.get s i in
+      let acc = if is_printable char then acc ^ String.make 1 char else acc in
+      helper (i + 1) acc
+  in
+  helper 0 ""
+
+(** TODO change*)
+let remove_newlines_and_spaces s =
+  s |> String.to_seq
+  |> Seq.filter (function
+       | '\n' | '\r' -> false
+       | _ -> true)
+  |> String.of_seq |> String.trim
+
+let calculate_total_y_offset arr line_spacing =
+  let y_offset = ref 0 in
+  for i = 0 to Array.length arr - 1 do
+    let item = String.trim arr.(i) in
+    let char_count = count_characters item in
+    let additional_offset = round_up_division char_count 100 + 1 in
+    y_offset := !y_offset + additional_offset + line_spacing
+  done;
+  !y_offset
+
+let find_starting_index arr max_offset line_spacing =
+  let offset_sum = ref 0 in
+  let starting_index = ref 0 in
+  let arr_starting_index = ref (Array.length arr - 1) in
+  while !arr_starting_index >= 0 && !offset_sum < max_offset do
+    let item = String.trim arr.(!starting_index) in
+    let char_count = count_characters item in
+    let additional_offset = round_up_division char_count 100 in
+    offset_sum := !offset_sum + additional_offset + line_spacing;
+    arr_starting_index := !arr_starting_index - 1;
+    if !offset_sum < max_offset then starting_index := !starting_index + 1
+  done;
+  let result = Array.length arr - !starting_index + 1 in
+  Printf.printf "The result is: %d\n" result;
+  result
+
+
+let determine_starting_index total_y_offset arr =
+  let start = ref 0 in
+  if total_y_offset > 25 then start := find_starting_index arr 25 1;
+  !start
 
 let draw_txt arr =
   let open Raylib in
@@ -87,30 +150,50 @@ let draw_txt arr =
   let line_spacing = 20 in
   begin_drawing ();
   let y_offset = ref 0 in
+  let rec draw_wrapped_text text base_y y_offset line_spacing num =
+    let text_length = count_characters text in
+    if text_length <= num then
+      draw_text text base_x (base_y + (y_offset * line_spacing)) 15 Color.white
+    else
+      let part = String.sub text 0 num in
+      let rest = String.sub text num (text_length - num) in
+      draw_text part base_x (base_y + (y_offset * line_spacing)) 15 Color.white;
+      draw_wrapped_text rest base_y (y_offset + 1) line_spacing num
+  in
+  let total_y_offset = calculate_total_y_offset arr 1 in
+  let start = determine_starting_index total_y_offset arr in
+  if start > 0 then clear_background Color.black;
   let me = ref false in
-  (* let rec draw_wrapped_text text base_y = let text_length = count_characters
-     text in if text_length <= 100 then draw_text text base_x base_y 20
-     Color.black else let part = String.sub text 0 100 in let rest = String.sub
-     text 100 (text_length - 100) in draw_text part base_x base_y 20
-     Color.black; draw_wrapped_text rest (base_y + line_spacing) in *)
-  for i = 0 to length - 1 do
+  if start mod 2 = 1 then 
+    me := true;
+  for i = start to length - 1 do
     print_int !y_offset;
     if not !me then (
       draw_text "course planner" base_x
         (base_y + (!y_offset * line_spacing))
         15 Color.white;
-      y_offset := !y_offset+1)
+      y_offset := !y_offset + 1)
     else (
       draw_text "You" base_x
         (base_y + (!y_offset * line_spacing))
         15 Color.white;
-        y_offset := !y_offset+1);
+      y_offset := !y_offset + 1);
     let item = arr.(i) in
     print_int !y_offset;
-    print_endline"";
-    draw_text item base_x (base_y + (!y_offset * line_spacing)) 15 Color.white;
-    (* y_offset := !y_offset + (count_characters item / 100) + 2 *)
-    y_offset := !y_offset+2;
+    print_endline "";
+    (* draw_text item base_x (base_y + (!y_offset * line_spacing)) 15
+       Color.white; *)
+    draw_wrapped_text (String.trim item) base_y !y_offset 20 100;
+    print_endline
+      (string_of_int (round_up_division (count_characters item) 100));
+    print_endline item;
+    print_string_character_by_character (String.trim item);
+    print_endline (string_of_int (count_characters (String.trim item)));
+    y_offset :=
+      !y_offset
+      + round_up_division (count_characters (String.trim item)) 100
+      + 1;
+    (* y_offset := !y_offset + 2; *)
     me := not !me
   done;
   end_drawing ();
@@ -121,10 +204,18 @@ let rec loop s =
   else
     let open Raylib in
     draw_txt s.text_list;
-    if is_key_pressed Key.Enter then (
+    if is_key_pressed Key.Enter then
       let p = output s.multi_text_box_text s.gpt_lst in
-      let new_arr = add_to_array s.text_list s.multi_text_box_text in
-      let snd_arr = add_to_array new_arr (snd p) in
+      let new_arr =
+        add_to_array s.text_list
+          (remove_newlines_and_spaces
+             (remove_hidden_characters (String.trim s.multi_text_box_text)))
+      in
+      let snd_arr =
+        add_to_array new_arr
+          (remove_newlines_and_spaces
+             (remove_hidden_characters (String.trim (snd p))))
+      in
       loop
         {
           gpt_lst = fst p;
@@ -132,7 +223,7 @@ let rec loop s =
           multi_text_box_text = "";
           multi_text_box_edit_mode = true;
           text_list = snd_arr;
-        })
+        }
     else
       let rect = Rectangle.create 320.0 525.0 225.0 140.0 in
       let multi_text_box_text =
