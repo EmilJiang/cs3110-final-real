@@ -1,11 +1,13 @@
+Py.initialize ()
 
-Py.initialize ();
 type state = {
   gpt_lst : Pytypes.pyobject;
   gpt_question : string;
   multi_text_box_text : string;
   mutable multi_text_box_edit_mode : bool;
+  text_list : string array;
 }
+
 let output text lst =
   let openai = Py.Import.import_module "openai" in
   Py.Module.set openai "api_key"
@@ -33,8 +35,14 @@ let output text lst =
   ignore (Py.Object.call_method lst "append" [| message |]);
   (lst, Py.Object.to_string content)
 
+let add_to_array arr elem =
+  let new_arr = Array.make (Array.length arr + 1) "" in
+  Array.blit arr 0 new_arr 0 (Array.length arr);
+  new_arr.(Array.length arr) <- elem;
+  new_arr
+
 let setup () =
-  Raylib.init_window 800 800 "raylib [core] example - basic window";
+  Raylib.init_window 800 600 "raylib [core] example - basic window";
   Raylib.set_target_fps 60;
   let py_empty_list = Py.List.of_list [] in
   let initial_message =
@@ -63,26 +71,69 @@ let setup () =
       "Hi! I'm your virtual scheduling assistant! Would you like to proceed?";
     multi_text_box_text = "";
     multi_text_box_edit_mode = true;
+    text_list =
+      [|
+        "Hi! I'm your virtual scheduling assistant! Would you like to proceed?";
+      |];
   }
+
+let count_characters s = String.length s
+
+let draw_txt arr =
+  let open Raylib in
+  let length = Array.length arr in
+  let base_x = 50 in
+  let base_y = 50 in
+  let line_spacing = 20 in
+  begin_drawing ();
+  let y_offset = ref 0 in
+  let me = ref false in
+  (* let rec draw_wrapped_text text base_y = let text_length = count_characters
+     text in if text_length <= 100 then draw_text text base_x base_y 20
+     Color.black else let part = String.sub text 0 100 in let rest = String.sub
+     text 100 (text_length - 100) in draw_text part base_x base_y 20
+     Color.black; draw_wrapped_text rest (base_y + line_spacing) in *)
+  for i = 0 to length - 1 do
+    print_int !y_offset;
+    if not !me then (
+      draw_text "course planner" base_x
+        (base_y + (!y_offset * line_spacing))
+        15 Color.white;
+      y_offset := !y_offset+1)
+    else (
+      draw_text "You" base_x
+        (base_y + (!y_offset * line_spacing))
+        15 Color.white;
+        y_offset := !y_offset+1);
+    let item = arr.(i) in
+    print_int !y_offset;
+    print_endline"";
+    draw_text item base_x (base_y + (!y_offset * line_spacing)) 15 Color.white;
+    (* y_offset := !y_offset + (count_characters item / 100) + 2 *)
+    y_offset := !y_offset+2;
+    me := not !me
+  done;
+  end_drawing ();
+  ()
 
 let rec loop s =
   if Raylib.window_should_close () then Raylib.close_window ()
   else
     let open Raylib in
-    begin_drawing ();
-    clear_background Color.black;
-    if is_key_pressed Key.Enter then
+    draw_txt s.text_list;
+    if is_key_pressed Key.Enter then (
       let p = output s.multi_text_box_text s.gpt_lst in
-      end_drawing ();
+      let new_arr = add_to_array s.text_list s.multi_text_box_text in
+      let snd_arr = add_to_array new_arr (snd p) in
       loop
         {
           gpt_lst = fst p;
           gpt_question = snd p;
           multi_text_box_text = "";
           multi_text_box_edit_mode = true;
-        }
-    else (
-      draw_text s.gpt_question 100 100 10 Color.white;
+          text_list = snd_arr;
+        })
+    else
       let rect = Rectangle.create 320.0 525.0 225.0 140.0 in
       let multi_text_box_text =
         match
@@ -94,13 +145,13 @@ let rec loop s =
             vl
         | vl, false -> vl
       in
-      end_drawing ();
       loop
         {
           gpt_lst = s.gpt_lst;
           gpt_question = s.gpt_question;
           multi_text_box_text;
           multi_text_box_edit_mode = true;
-        })
+          text_list = s.text_list;
+        }
 
 let () = setup () |> loop
