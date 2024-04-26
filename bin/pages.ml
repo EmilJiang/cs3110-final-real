@@ -109,10 +109,10 @@ let rec update_and_render current_screen =
       in
       game_loop start_time
   | List ->
-      let button_one = { x = 0; y = 190; width = 800; height = 100 } in
-      let button_two = { x = 0; y = 310; width = 800; height = 100 } in
-      let button_three = { x = 0; y = 430; width = 800; height = 100 } in
-      let button_four = { x = 0; y = 550; width = 800; height = 100 } in
+      let button_one = { x = 0; y = 70; width = 800; height = 100 } in
+      let button_two = { x = 0; y = 190; width = 800; height = 100 } in
+      let button_three = { x = 0; y = 310; width = 800; height = 100 } in
+      let button_four = { x = 0; y = 430; width = 800; height = 100 } in
       Listpage.start_list_page courses;
       if is_mouse_over_button button_one && is_gesture_detected Gesture.Tap then
         Description 0
