@@ -10,8 +10,7 @@ type state = {
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key"
-    (Py.String.of_string "");
+  Py.Module.set openai "api_key" (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [
@@ -136,7 +135,6 @@ let find_starting_index arr max_offset line_spacing =
   Printf.printf "The result is: %d\n" result;
   result
 
-
 let determine_starting_index total_y_offset arr =
   let start = ref 0 in
   if total_y_offset > 25 then start := find_starting_index arr 25 1;
@@ -164,8 +162,7 @@ let draw_txt arr =
   let start = determine_starting_index total_y_offset arr in
   if start > 0 then clear_background Color.black;
   let me = ref false in
-  if start mod 2 = 1 then 
-    me := true;
+  if start mod 2 = 1 then me := true;
   for i = start to length - 1 do
     print_int !y_offset;
     if not !me then (

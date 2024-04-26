@@ -139,6 +139,6 @@ let setup () =
   set_target_fps 60;
   Home
 
-let () =
+let start_pages () =
   setup () |> loop;
   close_window ()
