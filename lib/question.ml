@@ -242,4 +242,4 @@ let rec loop s =
           text_list = s.text_list;
         }
 
-let () = setup () |> loop
+let s () = setup () |> loop

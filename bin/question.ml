@@ -11,8 +11,7 @@ type state = {
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key"
-    (Py.String.of_string "");
+  Py.Module.set openai "api_key" (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [
@@ -285,4 +284,4 @@ let rec loop s =
           index = s.index;
         }
 
-let () = setup () |> loop
+let s () = setup () |> loop
