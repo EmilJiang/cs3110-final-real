@@ -1,26 +1,28 @@
 open OUnit2
 open Final_project_test
-open Descriptionpage
 open Question
 
-let test1 ctxt =
-  let text = "Short text" in
-  let max_width = 200 in
-  let wrapped_text = wrap_text text max_width in
-  assert_equal ~ctxt wrapped_text "Short text"
+let tests =
+  "Descriptionpage test suite"
+  >::: [
+         ( "count_characters - Count characters in short text" >:: fun _ ->
+           let text = "Short text" in
+           let wrapped_text = count_characters text in
+           let equivalent_counters = 10 in
+           assert_equal wrapped_text equivalent_counters );
+         ( "count_characters - Empty text returns 0" >:: fun _ ->
+           let text = "" in
+           let counted_characters = count_characters text in
+           let equivalent_counters = 0 in
+           assert_equal counted_characters equivalent_counters );
+         ( "output - Empty text returns 0" >:: fun _ ->
+           let text = "Hi" in
+           let output1 = output text in
+           let py_empty_list = Py.List.of_list [] in
+           let str = snd (output1 py_empty_list) in
+           let length = String.length str in
+           let boo = length > 0 in
+           assert_equal boo true );
+       ]
 
-let test2 ctxt =
-  let text = "Short text" in
-  let wrapped_text = count_characters text in
-  let equivalent_counters = 10 in
-  assert_equal ~ctxt wrapped_text equivalent_counters
-
-let test3 ctxt =
-  let text = "" in
-  let wrapped_text = count_characters text in
-  let equivalent_counters = 0 in
-  assert_equal ~ctxt wrapped_text equivalent_counters
-
-let tests = [ "test1" >:: test1; "test2" >:: test2; "test3" >:: test3 ]
-let test_suite = "interval test suite" >::: tests
-let _ = run_test_tt_main test_suite
+let _ = run_test_tt_main tests

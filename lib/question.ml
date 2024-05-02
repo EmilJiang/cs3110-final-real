@@ -6,6 +6,7 @@ type state = {
   multi_text_box_text : string;
   mutable multi_text_box_edit_mode : bool;
   text_list : string array;
+  index : int;
 }
 
 let output text lst =
@@ -30,7 +31,6 @@ let output text lst =
   let first_choice = Py.List.get_item choices 0 in
   let message = Py.Object.find_attr_string first_choice "message" in
   let content = Py.Object.find_attr_string message "content" in
-  Printf.printf "%s\n" (Py.Object.to_string content);
   ignore (Py.Object.call_method lst "append" [| message |]);
   (lst, Py.Object.to_string content)
 
@@ -74,6 +74,7 @@ let setup () =
       [|
         "Hi! I'm your virtual scheduling assistant! Would you like to proceed?";
       |];
+    index = 0;
   }
 
 let count_characters s = String.length s
@@ -101,6 +102,17 @@ let remove_hidden_characters s =
   in
   helper 0 ""
 
+let sub_array arr start_idx end_idx =
+  if start_idx < 0 || end_idx >= Array.length arr || start_idx > end_idx then
+    [||]
+  else
+    let result_length = end_idx - start_idx + 1 in
+    let result = Array.make result_length arr.(start_idx) in
+    for i = 0 to result_length - 1 do
+      result.(i) <- arr.(start_idx + i)
+    done;
+    result
+
 (** TODO change*)
 let remove_newlines_and_spaces s =
   s |> String.to_seq
@@ -123,24 +135,22 @@ let find_starting_index arr max_offset line_spacing =
   let offset_sum = ref 0 in
   let starting_index = ref 0 in
   let arr_starting_index = ref (Array.length arr - 1) in
-  while !arr_starting_index >= 0 && !offset_sum < max_offset do
-    let item = String.trim arr.(!starting_index) in
+  while !arr_starting_index >= 0 do
+    let item = String.trim arr.(!arr_starting_index) in
     let char_count = count_characters item in
     let additional_offset = round_up_division char_count 100 in
-    offset_sum := !offset_sum + additional_offset + line_spacing;
+    offset_sum := !offset_sum + additional_offset + line_spacing + 1;
     arr_starting_index := !arr_starting_index - 1;
-    if !offset_sum < max_offset then starting_index := !starting_index + 1
+    if !offset_sum > max_offset then starting_index := !starting_index + 1
   done;
-  let result = Array.length arr - !starting_index + 1 in
-  Printf.printf "The result is: %d\n" result;
-  result
+  !starting_index
 
 let determine_starting_index total_y_offset arr =
   let start = ref 0 in
   if total_y_offset > 25 then start := find_starting_index arr 25 1;
   !start
 
-let draw_txt arr =
+let draw_txt arr index =
   let open Raylib in
   let length = Array.length arr in
   let base_x = 50 in
@@ -158,15 +168,23 @@ let draw_txt arr =
       draw_text part base_x (base_y + (y_offset * line_spacing)) 15 Color.white;
       draw_wrapped_text rest base_y (y_offset + 1) line_spacing num
   in
+  let start = ref 0 in
+  let me = ref true in
+  let finish = ref (length - 1) in
   let total_y_offset = calculate_total_y_offset arr 1 in
-  let start = determine_starting_index total_y_offset arr in
-  if start > 0 then clear_background Color.black;
-  let me = ref false in
-  if start mod 2 = 1 then me := true;
-  for i = start to length - 1 do
-    print_int !y_offset;
+  (if Array.length arr - 1 = index then (
+     let determined_start = determine_starting_index total_y_offset arr in
+     start := determined_start;
+     if !start > 0 then clear_background Color.black;
+     if !start mod 2 = 1 then me := true else me := false)
+   else clear_background Color.black;
+   let new_array = sub_array arr 0 index in
+   start := find_starting_index new_array 25 1;
+   finish := index;
+   if !start mod 2 = 1 then me := true else me := false);
+  for i = !start to !finish do
     if not !me then (
-      draw_text "course planner" base_x
+      draw_text "Course Planner" base_x
         (base_y + (!y_offset * line_spacing))
         15 Color.white;
       y_offset := !y_offset + 1)
@@ -176,21 +194,11 @@ let draw_txt arr =
         15 Color.white;
       y_offset := !y_offset + 1);
     let item = arr.(i) in
-    print_int !y_offset;
-    print_endline "";
-    (* draw_text item base_x (base_y + (!y_offset * line_spacing)) 15
-       Color.white; *)
     draw_wrapped_text (String.trim item) base_y !y_offset 20 100;
-    print_endline
-      (string_of_int (round_up_division (count_characters item) 100));
-    print_endline item;
-    print_string_character_by_character (String.trim item);
-    print_endline (string_of_int (count_characters (String.trim item)));
     y_offset :=
       !y_offset
       + round_up_division (count_characters (String.trim item)) 100
       + 1;
-    (* y_offset := !y_offset + 2; *)
     me := not !me
   done;
   end_drawing ();
@@ -200,7 +208,7 @@ let rec loop s =
   if Raylib.window_should_close () then Raylib.close_window ()
   else
     let open Raylib in
-    draw_txt s.text_list;
+    draw_txt s.text_list s.index;
     if is_key_pressed Key.Enter then
       let p = output s.multi_text_box_text s.gpt_lst in
       let new_arr =
@@ -220,6 +228,39 @@ let rec loop s =
           multi_text_box_text = "";
           multi_text_box_edit_mode = true;
           text_list = snd_arr;
+          index = Array.length snd_arr - 1;
+        }
+    else if is_key_pressed Key.Up then
+      let new_array = sub_array s.text_list 0 (s.index - 1) in
+      let cal_y_offset = calculate_total_y_offset new_array 1 in
+      let lst_index =
+        if s.index <= 0 then 0
+        else if cal_y_offset <= 25 then s.index
+        else s.index - 1
+      in
+      loop
+        {
+          gpt_lst = s.gpt_lst;
+          gpt_question = s.gpt_question;
+          multi_text_box_text = s.multi_text_box_text;
+          multi_text_box_edit_mode = true;
+          text_list = s.text_list;
+          index = lst_index;
+        }
+    else if is_key_pressed Key.Down then
+      let lst_index =
+        if s.index >= Array.length s.text_list - 1 then
+          Array.length s.text_list - 1
+        else s.index + 1
+      in
+      loop
+        {
+          gpt_lst = s.gpt_lst;
+          gpt_question = s.gpt_question;
+          multi_text_box_text = s.multi_text_box_text;
+          multi_text_box_edit_mode = true;
+          text_list = s.text_list;
+          index = lst_index;
         }
     else
       let rect = Rectangle.create 320.0 525.0 225.0 140.0 in
@@ -240,6 +281,7 @@ let rec loop s =
           multi_text_box_text;
           multi_text_box_edit_mode = true;
           text_list = s.text_list;
+          index = s.index;
         }
 
 let s () = setup () |> loop
