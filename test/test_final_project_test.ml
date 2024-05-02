@@ -1,13 +1,26 @@
 open OUnit2
 open Final_project_test
+open Descriptionpage
+open Question
 
 let test1 ctxt =
   let text = "Short text" in
   let max_width = 200 in
-  let wrapped_text = Descriptionpage.wrap_text text max_width in
+  let wrapped_text = wrap_text text max_width in
   assert_equal ~ctxt wrapped_text "Short text"
 
-(* let test2 ctxt = assert_equal ~ctxt *)
-let tests = [ "test1" >:: test1 ]
+let test2 ctxt =
+  let text = "Short text" in
+  let wrapped_text = count_characters text in
+  let equivalent_counters = 10 in
+  assert_equal ~ctxt wrapped_text equivalent_counters
+
+let test3 ctxt =
+  let text = "" in
+  let wrapped_text = count_characters text in
+  let equivalent_counters = 0 in
+  assert_equal ~ctxt wrapped_text equivalent_counters
+
+let tests = [ "test1" >:: test1; "test2" >:: test2; "test3" >:: test3 ]
 let test_suite = "interval test suite" >::: tests
 let _ = run_test_tt_main test_suite
