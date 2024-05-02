@@ -67,6 +67,7 @@ let is_mouse_over_button button =
   && mouse_y <= float (button.y + button.height)
 
 let rec update_and_render current_screen =
+  print_endline "hi";
   match current_screen with
   | Home ->
       let button_width = 100 in
