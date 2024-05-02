@@ -122,6 +122,28 @@ let tests =
            let char = ')' in
            let boo = is_printable char in
            assert_equal boo true );
+         ( "Default button" >:: fun _ ->
+           assert_equal "0, 0, 10, 10"
+             (Button.button_to_string Button.default_button) );
+         ( "New button" >:: fun _ ->
+           assert_equal "5, 5, 5, 5"
+             (Button.button_to_string (Button.new_button 5 5 5 5)) );
+         ( "Button x" >:: fun _ ->
+           assert_equal 0 (Button.button_x Button.default_button) );
+         ( "Button y" >:: fun _ ->
+           assert_equal 0 (Button.button_y Button.default_button) );
+         ( "Button width" >:: fun _ ->
+           assert_equal 10 (Button.button_width Button.default_button) );
+         ( "Button height" >:: fun _ ->
+           assert_equal 10 (Button.button_height Button.default_button) );
+         ( "Compare equal buttons" >:: fun _ ->
+           assert_equal true
+             (Button.compare_button Button.default_button Button.default_button)
+         );
+         ( "Compare different buttons" >:: fun _ ->
+           assert_equal false
+             (Button.compare_button Button.default_button
+                (Button.new_button 5 5 5 5)) );
        ]
 
 let _ = run_test_tt_main tests
