@@ -23,6 +23,68 @@ let tests =
            let length = String.length str in
            let boo = length > 0 in
            assert_equal boo true );
+         ( "output - Empty text returns 0" >:: fun _ ->
+           let text =
+             "The cozy seating arrangements, with their plush cushions and \
+              warm lighting, beckon visitors to settle in and unwind. It's a \
+              place where time seems to slow down, and worries melt away, as \
+              patrons sip their coffee and lose themselves in conversation or \
+              contemplation."
+           in
+           let output1 = output text in
+           let py_empty_list = Py.List.of_list [] in
+           let str = snd (output1 py_empty_list) in
+           let length = String.length str in
+           let boo = length > 0 in
+           assert_equal boo true );
+         ( "output - Empty text returns 0" >:: fun _ ->
+           let text = "0" in
+           let output1 = output text in
+           let py_empty_list = Py.List.of_list [] in
+           let str = snd (output1 py_empty_list) in
+           let length = String.length str in
+           let boo = length > 0 in
+           assert_equal boo true );
+         ( "Empty course" >:: fun _ ->
+           assert_equal ", " (Course.print_course Course.empty_course) );
+         ( "Edit course name" >:: fun _ ->
+           assert_equal "course_name, "
+             (Course.print_course
+                (Course.edit_course_name Course.empty_course "course_name")) );
+         ( "Add empty course name" >:: fun _ ->
+           assert_equal ", "
+             (Course.print_course
+                (Course.edit_course_name Course.empty_course "")) );
+         ( "Edit course description" >:: fun _ ->
+           assert_equal ", course_description"
+             (Course.print_course
+                (Course.edit_course_description Course.empty_course
+                   "course_description")) );
+         ( "Add empty course description" >:: fun _ ->
+           assert_equal ", "
+             (Course.print_course
+                (Course.edit_course_description Course.empty_course "")) );
+         ( "Compare empty courses" >:: fun _ ->
+           assert_equal true
+             (Course.compare_course Course.empty_course Course.empty_course) );
+         ( "Compare non-empty same course names" >:: fun _ ->
+           assert_equal true
+             (Course.compare_course
+                (Course.edit_course_name Course.empty_course "course_name")
+                (Course.edit_course_name Course.empty_course "course_name")) );
+         ( "Compare non-empty same course descriptions" >:: fun _ ->
+           assert_equal true
+             (Course.compare_course
+                (Course.edit_course_description Course.empty_course
+                   "course_name")
+                (Course.edit_course_description Course.empty_course
+                   "course_name")) );
+         ( "Compare different courses" >:: fun _ ->
+           assert_equal false
+             (Course.compare_course
+                (Course.edit_course_description Course.empty_course "course1")
+                (Course.edit_course_description Course.empty_course "course2"))
+         );
        ]
 
 let _ = run_test_tt_main tests
