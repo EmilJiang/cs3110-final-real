@@ -1,0 +1,1 @@
+val start_loading_page : unit -> unit

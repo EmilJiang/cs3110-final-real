@@ -1,18 +1,4 @@
 open Raylib
-
-let cs_2800 : Course.t =
-  {
-    name = "CS 2800 - Discrete Mathematics";
-    description =
-      "Covers the mathematics that underlies most of computer science. Topics \
-       include mathematical induction; logical proof; propositional and \
-       predicate calculus; combinatorics and discrete mathematics; some basic \
-       elements of basic probability theory; basic number theory; sets, \
-       functions, and relations; graphs; and finite-state machines. These \
-       topics are discussed in the context of applications to many areas of \
-       computer science, such as the RSA cryptosystem and web searching.";
-  }
-
 let width = 800
 let height = 600
 
