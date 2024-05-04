@@ -289,6 +289,39 @@ let tests =
            assert_equal false
              (Button.compare_button Button.default_button
                 (Button.new_button 5 5 5 5)) );
+         ( "Empty schedule" >:: fun _ ->
+           assert_equal "[]"
+             (Schedule.schedule_to_string Schedule.empty_schedule) );
+         ( "Add one course to schedule" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal "[Course]"
+             (Schedule.schedule_to_string
+                (Schedule.add_course Schedule.empty_schedule course)) );
+         ( "Add multiple courses to schedule" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal "[Course, Course]"
+             (Schedule.schedule_to_string
+                (Schedule.add_course
+                   (Schedule.add_course Schedule.empty_schedule course)
+                   course)) );
+         ( "Delete course from schedule" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           let schedule = Schedule.add_course Schedule.empty_schedule course in
+           assert_equal "[]"
+             (Schedule.schedule_to_string
+                (Schedule.remove_course schedule course)) );
+         ( "Check course in schedule" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal true
+             (Schedule.in_schedule
+                (Schedule.add_course Schedule.empty_schedule course)
+                course) );
+         ( "Check course not in schedule" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal false
+             (Schedule.in_schedule
+                (Schedule.add_course Schedule.empty_schedule Course.empty_course)
+                course) );
        ]
 
 let _ = run_test_tt_main tests
