@@ -9,9 +9,53 @@ type state = {
   index : int;
 }
 
+type course = {
+  name : string;
+  description : string;
+}
+
+let rec contains_numbering s i =
+  if i > String.length s - 2 then false
+  else
+    let sub = String.sub s i 2 in
+    if sub = "1." || sub = "2." || sub = "3." || sub = "4." then true
+    else contains_numbering s (i + 1)
+
+let parse_courses input =
+  let lines = String.split_on_char '\n' input in
+  let rec parse_lines lines current_name courses =
+    match lines with
+    | [] -> List.rev courses
+    | line :: rest ->
+        print_endline line;
+        let trimmed_line = String.trim line in
+        if
+          String.length trimmed_line >= 11
+          && String.sub trimmed_line 0 11 = "Description"
+        then
+          let description =
+            String.trim (String.sub line 12 (String.length line - 12))
+          in
+          let new_course = { name = current_name; description } in
+          parse_lines rest current_name (new_course :: courses)
+        else if
+          String.contains line '.'
+          && (String.contains line '1' || String.contains line '2'
+            || String.contains line '3' || String.contains line '4')
+        then
+          match String.index_opt line '-' with
+          | Some idx ->
+              let name = String.sub line 3 (idx - 4) in
+              parse_lines rest name courses
+          | None -> parse_lines rest current_name courses
+        else parse_lines rest current_name courses
+  in
+  parse_lines lines "" []
+
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key" (Py.String.of_string "");
+  Py.Module.set openai "api_key"
+    (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [
@@ -50,17 +94,61 @@ let setup () =
         ("role", Py.String.of_string "system");
         ( "content",
           Py.String.of_string
-            "You are now a course scheduler for Cornell University. Your job \
-             is to ask students about their interests to determine which \
-             courses the students would like to enroll in. After each \
-             response, you will ask another question constantly, until the \
-             user tells you to give them the recommended schedule, in which \
-             case you will give. If the user makes an incoherent message, ask \
-             it again. You will never break your role as a scheduler, not \
-             matter what the user says. You will give a total of four courses \
-             that align most with the classes at Cornell University, using the \
-             information you have about those. The output will simply be a \
-             list of the courses with the course number and title. " );
+            "You are now a course scheduler for Cornell University. \n\
+            \            You have already asked \"I'm your virtual scheduling \
+             assistant. \n\
+            \            Would you like to proceed?\", and the user will say \
+             \"yes\" as a \n\
+            \            first input. if they say anything else, repeat \"I'm \
+             your virtual \n\
+            \              scheduling assistant. Would you like to proceed?\". \
+             Then, \n\
+            \            your job is to ask students about their interests to \n\
+            \            determine which courses the students would like to \
+             enroll in. \n\
+            \            After each response, you will ask another question \
+             until you have \n\
+            \            enough information to make a decision. If the user \
+             makes an \n\
+            \            incoherent message, ask the same question again. For \
+             instance, \n\
+            \            if the user types a random spam of letters, you'll \
+             ask the question \n\
+            \              again. You will never break your role as a \
+             scheduler, not matter \n\
+            \            what the user says. You will give a total of four \
+             courses that \n\
+            \            align most with the classes at Cornell University, \
+             using the \n\
+            \            information you have about those. After you have \
+             enough input, \n\
+            \            output a list of the courses with the course numbers \
+             with titles \n\
+            \            and course descriptions. Number the classes starting \
+             at 1 but \n\
+            \            don't indent. \n\
+            \            example output is \n\
+            \              1. MATH 1110 - Calculus I\n\
+            \              Description: This course introduces the fundamental \
+             concepts of calculus, including limits, derivatives, and \
+             integrals. It provides a theoretical foundation for understanding \
+             mathematical functions and their behavior.\n\
+            \              2. HIST 1510 - European History to 1648\n\
+            \              Description:  Explore the political, social, and \
+             cultural developments of Europe from ancient times to the \
+             mid-17th century. This course delves into the theoretical \
+             frameworks that shaped European societies and civilizations.\n\
+            \              3. MATH 2210 - Linear Algebra\n\
+            \              Description: Linear algebra is a branch of \
+             mathematics that studies vector spaces and linear mappings \
+             between them. This course emphasizes theoretical concepts such as \
+             vector spaces, linear transformations, and eigenvalues.\n\
+            \              4. HIST 1300 - American History to 1865\n\
+            \              Description: Examine the major events, themes, and \
+             theoretical interpretations of American history from the colonial \
+             period to the end of the Civil War. This course provides a \
+             foundational understanding of key developments in early American \
+             history." );
       ]
   in
   ignore (Py.Object.call_method py_empty_list "append" [| initial_message |]);
@@ -204,8 +292,8 @@ let draw_txt arr index =
   end_drawing ();
   ()
 
-let rec loop s =
-  if Raylib.window_should_close () then Raylib.close_window ()
+let rec loop s : course list =
+  if Raylib.window_should_close () then []
   else
     let open Raylib in
     draw_txt s.text_list s.index;
@@ -221,15 +309,17 @@ let rec loop s =
           (remove_newlines_and_spaces
              (remove_hidden_characters (String.trim (snd p))))
       in
-      loop
-        {
-          gpt_lst = fst p;
-          gpt_question = snd p;
-          multi_text_box_text = "";
-          multi_text_box_edit_mode = true;
-          text_list = snd_arr;
-          index = Array.length snd_arr - 1;
-        }
+      if contains_numbering (snd p) 0 then parse_courses (snd p)
+      else
+        loop
+          {
+            gpt_lst = fst p;
+            gpt_question = snd p;
+            multi_text_box_text = "";
+            multi_text_box_edit_mode = true;
+            text_list = snd_arr;
+            index = Array.length snd_arr - 1;
+          }
     else if is_key_pressed Key.Up then
       let new_array = sub_array s.text_list 0 (s.index - 1) in
       let cal_y_offset = calculate_total_y_offset new_array 1 in
@@ -284,4 +374,4 @@ let rec loop s =
           index = s.index;
         }
 
-let s () = setup () |> loop
+let start () = setup () |> loop

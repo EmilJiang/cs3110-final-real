@@ -40,11 +40,6 @@ let parse_courses input =
   in
   parse_lines lines "" []
 
-let () =
-  let input = "1. MATH 1110 - Calculus I\nDescription: This course introduces the fundamental concepts of calculus, including limits, derivatives, and integrals. It provides a theoretical foundation for understanding mathematical functions and their behavior.\n2. HIST 1510 - European History to 1648\nDescription:  Explore the political, social, and cultural developments of Europe from ancient times to the mid-17th century. This course delves into the theoretical frameworks that shaped European societies and civilizations.\n3. MATH 2210 - Linear Algebra\nDescription: Linear algebra is a branch of mathematics that studies vector spaces and linear mappings between them. This course emphasizes theoretical concepts such as vector spaces, linear transformations, and eigenvalues.\n4. HIST 1300 - American History to 1865\nDescription: Examine the major events, themes, and theoretical interpretations of American history from the colonial period to the end of the Civil War. This course provides a foundational understanding of key developments in early American history." in
-  let courses = parse_courses input in
-  List.iter (fun c -> Printf.printf "Course Name: %s\nDescription: %s\n\n" c.name c.description) courses
-
 let output text lst =
   let openai = Py.Import.import_module "openai" in
   Py.Module.set openai "api_key"
@@ -188,8 +183,6 @@ let rec contains_numbering s i =
   else if String.sub s i 2 = "1." then true
   else contains_numbering s (i + 1)
 
-let rec string_parser s = 
-  s
 
 let sub_array arr start_idx end_idx =
   if start_idx < 0 || end_idx >= Array.length arr || start_idx > end_idx then

@@ -1,1 +1,1 @@
-val start_list_page : Course.t list -> unit
+val start_list_page : Question.course list -> unit
