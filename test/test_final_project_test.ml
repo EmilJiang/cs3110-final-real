@@ -3,7 +3,7 @@ open Final_project_test
 open Question
 
 let tests =
-  "Descriptionpage test suite"
+  "Test suite"
   >::: [
          ( "count_characters - Count characters in short text" >:: fun _ ->
            let text = "Short text" in
@@ -322,6 +322,22 @@ let tests =
              (Schedule.in_schedule
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 course) );
+         ( "Compare same two schedules" >:: fun _ ->
+           assert_equal true
+             (Schedule.compare_schedule Schedule.empty_schedule
+                Schedule.empty_schedule) );
+         ( "Compare different two schedules w/ different # of courses"
+         >:: fun _ ->
+           assert_equal false
+             (Schedule.compare_schedule
+                (Schedule.add_course Schedule.empty_schedule Course.empty_course)
+                Schedule.empty_schedule) );
+         ( "Compare different two schedules w/ same # of courses" >:: fun _ ->
+           assert_equal false
+             (Schedule.compare_schedule
+                (Schedule.add_course Schedule.empty_schedule Course.empty_course)
+                (Schedule.add_course Schedule.empty_schedule
+                   (Course.edit_course_name Course.empty_course "Course"))) );
        ]
 
 let _ = run_test_tt_main tests
