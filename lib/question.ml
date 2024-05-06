@@ -54,8 +54,7 @@ let parse_courses input =
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key"
-    (Py.String.of_string "");
+  Py.Module.set openai "api_key" (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [
@@ -85,7 +84,6 @@ let add_to_array arr elem =
   new_arr
 
 let setup () =
-  Raylib.init_window 800 600 "raylib [core] example - basic window";
   Raylib.set_target_fps 60;
   let py_empty_list = Py.List.of_list [] in
   let initial_message =
@@ -245,15 +243,16 @@ let draw_txt arr index =
   let base_y = 50 in
   let line_spacing = 20 in
   begin_drawing ();
+  clear_background Color.white;
   let y_offset = ref 0 in
   let rec draw_wrapped_text text base_y y_offset line_spacing num =
     let text_length = count_characters text in
     if text_length <= num then
-      draw_text text base_x (base_y + (y_offset * line_spacing)) 15 Color.white
+      draw_text text base_x (base_y + (y_offset * line_spacing)) 15 Color.black
     else
       let part = String.sub text 0 num in
       let rest = String.sub text num (text_length - num) in
-      draw_text part base_x (base_y + (y_offset * line_spacing)) 15 Color.white;
+      draw_text part base_x (base_y + (y_offset * line_spacing)) 15 Color.black;
       draw_wrapped_text rest base_y (y_offset + 1) line_spacing num
   in
   let start = ref 0 in
@@ -263,9 +262,9 @@ let draw_txt arr index =
   (if Array.length arr - 1 = index then (
      let determined_start = determine_starting_index total_y_offset arr in
      start := determined_start;
-     if !start > 0 then clear_background Color.black;
+     if !start > 0 then clear_background Color.white;
      if !start mod 2 = 1 then me := true else me := false)
-   else clear_background Color.black;
+   else clear_background Color.white;
    let new_array = sub_array arr 0 index in
    start := find_starting_index new_array 25 1;
    finish := index;
@@ -274,12 +273,12 @@ let draw_txt arr index =
     if not !me then (
       draw_text "Course Planner" base_x
         (base_y + (!y_offset * line_spacing))
-        15 Color.white;
+        15 Color.black;
       y_offset := !y_offset + 1)
     else (
       draw_text "You" base_x
         (base_y + (!y_offset * line_spacing))
-        15 Color.white;
+        15 Color.black;
       y_offset := !y_offset + 1);
     let item = arr.(i) in
     draw_wrapped_text (String.trim item) base_y !y_offset 20 100;
