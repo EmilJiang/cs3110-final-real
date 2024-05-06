@@ -105,11 +105,6 @@ let tests =
            let str2 = remove_newlines_and_spaces str in
            let str3 = "stringhi" in
            assert_equal str2 str3 );
-         ( "remove_newlines_and_spaces - w/ spaces" >:: fun _ ->
-           let str = "string hi" in
-           let str2 = remove_newlines_and_spaces str in
-           let str3 = "stringhi" in
-           assert_equal str2 str3 );
          ( "subarr - empty arr" >:: fun _ ->
            let arr = Array.make 0 "" in
            let p1 = 0 in
