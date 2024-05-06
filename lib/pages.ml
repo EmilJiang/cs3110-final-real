@@ -71,10 +71,12 @@ let rec update_and_render current_screen =
       then Description (3, lst)
       else List lst
   | Description (i, lst) ->
+      let button = Button.new_button 275 520 250 40 in
       Descriptionpage.start_description_page (List.nth lst i);
-      if is_gesture_detected Gesture.Tap || is_key_pressed Key.Enter then (
-        print_endline "TODO";
-        List lst)
+      if
+        is_key_pressed Key.Enter
+        || (is_gesture_detected Gesture.Tap && is_mouse_over_button button)
+      then List lst
       else Description (i, lst)
 
 let rec loop current_screen =
