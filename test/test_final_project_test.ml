@@ -333,6 +333,34 @@ let tests =
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 (Schedule.add_course Schedule.empty_schedule
                    (Course.edit_course_name Course.empty_course "Course"))) );
+         (*TODO*)
+         ( "Test if an empty string is flagged as an output" >:: fun _ ->
+           let s = "" in
+           assert_equal false (Question.contains_numbering s 0) );
+         ( "Test if a invalid output is flagged" >:: fun _ ->
+           let s = "hi" in
+           assert_equal false (Question.contains_numbering s 0) );
+         ( "Test if a valid input(1.) is flagged" >:: fun _ ->
+           let s = "1." in
+           assert_equal true (Question.contains_numbering s 0) );
+         ( "Test if a valid input(2.) is flagged" >:: fun _ ->
+           let s = "2." in
+           assert_equal true (Question.contains_numbering s 0) );
+         ( "Test if a valid input(3.) is flagged" >:: fun _ ->
+           let s = "3." in
+           assert_equal true (Question.contains_numbering s 0) );
+         ( "Test if a valid input(4.) is flagged" >:: fun _ ->
+           let s = "4." in
+           assert_equal true (Question.contains_numbering s 0) );
+         ( "Test edge case only a number" >:: fun _ ->
+           let s = "4" in
+           assert_equal false (Question.contains_numbering s 0) );
+         ( "Test edge case only a period" >:: fun _ ->
+           let s = "." in
+           assert_equal false (Question.contains_numbering s 0) );
+         ( "Test edge case where number and period are seperated" >:: fun _ ->
+           let s = "4ijfoadsipfjao." in
+           assert_equal false (Question.contains_numbering s 0) );
        ]
 
 let _ = run_test_tt_main tests
