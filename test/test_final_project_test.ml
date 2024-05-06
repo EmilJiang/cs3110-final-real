@@ -45,6 +45,57 @@ let tests =
            let length = String.length str in
            let boo = length > 0 in
            assert_equal boo true );
+         ( "parse_courses - empty list" >:: fun _ ->
+           let lst = "" in
+           let clist = parse_courses lst in
+           let clist_length = List.length clist in
+           let length = 0 in
+           assert_equal clist_length length );
+         ( "parse_courses - single list" >:: fun _ ->
+           let lst = "1. CS3110 \nDescription : Functional programming" in
+           let clist = parse_courses lst in
+           let clist_length = List.length clist in
+           let length = 1 in
+           assert_equal clist_length length );
+         ( "parse_courses - double list" >:: fun _ ->
+           let lst =
+             "1. CS3110 \n\
+              Description : Functional programming \n\
+             \ 2. CS2800 \n\
+              Description : Discrete math"
+           in
+           let clist = parse_courses lst in
+           let clist_length = List.length clist in
+           let length = 2 in
+           assert_equal clist_length length );
+         ( "parse_courses - triple list" >:: fun _ ->
+           let lst =
+             "1. CS3110 \n\
+              Description : Functional programming \n\
+             \ 2. CS2800 \n\
+              Description : Discrete math\n\
+              3. PMA3540 \n\
+              Description: Film and Video Production"
+           in
+           let clist = parse_courses lst in
+           let clist_length = List.length clist in
+           let length = 3 in
+           assert_equal clist_length length );
+         ( "parse_courses - triple list" >:: fun _ ->
+           let lst =
+             "1. CS3110 \n\
+              Description : Functional programming \n\
+             \ 2. CS2800 \n\
+              Description : Discrete math\n\
+              3. PMA3540 \n\
+              Description: Film and Video Production\n\
+              4. ENGRG1400\n\
+              Description: Project Team"
+           in
+           let clist = parse_courses lst in
+           let clist_length = List.length clist in
+           let length = 4 in
+           assert_equal clist_length length );
          ( "Empty course" >:: fun _ ->
            assert_equal ", " (Course.print_course Course.empty_course) );
          ( "Edit course name" >:: fun _ ->
