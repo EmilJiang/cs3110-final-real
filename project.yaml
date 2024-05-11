@@ -10,18 +10,11 @@ pm:
   name: Jonathan Yen
   netid: jfy7
 publish: false
-title: "The OCaml IDE Chatbot Extension"
+title: "The OCaml Scheduling Chatbot"
 git-repo: "https://github.com/EmilJiang/cs3110-final-real"
 demo-video-url: ""
 desc: >
-  Our project is a virtual chatbot to assist in coding as an IDE extension 
-  for Visual Studio Code. The user simply needs to open the chat box for the 
-  application to run, and from then on, the virtual assistant can help with creating 
-  specifications, unit tests, solving bugs, git commits, and more. 
-
-  The project integrates with Open AI, and we aim to launch this product to 
-  actual users.
-note: |
-  There are two branches in the github. The main branch includes all the
-  code with OpenAI, while the ide-extension-framework branch includes the 
-  code with bindings from OCaml to JS for the IDE extension.
+  Our project is a scheduler that uses the OpenAI API to query the user on 
+  classes that they may be interested in. Using the results of the user input, 
+  a schedule with 4 classes is presented which contains the course titles and 
+  descriptions.

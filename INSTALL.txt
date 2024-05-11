@@ -1,23 +1,17 @@
 # Installation Steps:
 
+Note: This program requires python3 with version 3.11 (NOT 3.12) to be installed. 
 
-- opam install raylib, raygui 
-- must have python version 3.11 (NOT 3.12)
+1. Navigate to the cs3110-final-real (root) folder in terminal
 
+2. Type in "opam install pyml raylib raygui ppx_inline_test" (and continue with "Y")
 
-1. Navigate to the final_project folder in terminal
+3. Type in the following three commands to terminal:
 
-2. Type in "opam install pyml"
+python3 -m venv venv 
+source venv/bin/activate
+pip3 install openai
 
-3. "python3 -m venv venv"
-
-4. "source venv/bin/activate"
-
-5. "pip3 install openai"
-
-6. Go to APIKEY.txt and copy the key to main.ml on line 17, in the empty ""
+6. Go to APIKEY.txt and copy the key to lib/question.ml on line 57, in the empty ""
 
 7. Type in "dune exec bin/main.exe" into the terminal
-
-Note: This terminal integration does not allow multiline inputs. This restraint 
-is only valid for terminal. Any other UI usage multiline is enabled.
