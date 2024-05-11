@@ -1,0 +1,14 @@
+
+
+CS 2800
+on: This course introduces mathematical foundations of computer science, covering topics such as logic, set theory, functions, and relations. It provides a theoretical framework for analyzing algorithms and data structures.
+
+CS 4820
+on: This course explores advanced algorithms analysis techniques, including algorithm design paradigms, algorithmic strategies, and complexity analysis. It covers a wide range of algorithmic techniques and their applications.
+
+CS 4850
+on: This course delves into the mathematical principles underlying modern information technology, including cryptography, error correction codes, and network design. It provides a theoretical basis for understanding advanced computing concepts.
+
+CS 4740
+on: This course focuses on natural language processing and machine learning, covering topics such as sentiment analysis, information retrieval, and language models. It explores how computers process and analyze human language data.
+
