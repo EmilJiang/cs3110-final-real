@@ -20,9 +20,12 @@ let main_loop lst_of_courses =
   let text_size = Raylib.measure_text header_text 20 in
   let text_x = ((width - text_size) / 2) + 50 in
   let text_y = 20 in
-  Raylib.draw_text "Save courses" 100 550 20 Raylib.Color.black;
-  draw_rectangle 150 550 300 50 Color.skyblue;
+  let save_courses_text_x =
+    text_x + ((300 - measure_text "Save courses" 20) / 2)
+  in
+  draw_rectangle text_x 550 300 50 Color.skyblue;
   Raylib.draw_text header_text text_x text_y 20 Raylib.Color.black;
+  Raylib.draw_text "Save courses" save_courses_text_x 570 20 Raylib.Color.black;
 
   let course_height = 100 in
   let spacing = 20 in
