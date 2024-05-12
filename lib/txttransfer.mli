@@ -5,3 +5,4 @@ val save_to_file : string -> string -> unit
    filename*)
 
 val save_courses : course list -> unit
+(**[save_courses lst] saves all the courses in lst to a file named courses.txt*)
