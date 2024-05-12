@@ -1,6 +1,8 @@
 # Installation Steps:
 
-Note: This program requires python3 with version 3.11 (NOT 3.12) to be installed. 
+Notes: 
+- This program requires python3 with version 3.11 (NOT 3.12) to be installed. 
+- Step 6 (putting in the API key) must be completed before dune test can be run
 
 1. Navigate to the cs3110-final-real (root) folder in terminal
 
