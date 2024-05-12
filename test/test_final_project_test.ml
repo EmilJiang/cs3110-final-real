@@ -404,18 +404,30 @@ let tests =
            assert_equal true
              (Schedule.compare_schedule Schedule.empty_schedule
                 Schedule.empty_schedule) );
+          ( "Compare same two schedules with 1 course" >:: fun _ ->
+            let course = Course.edit_course_name Course.empty_course "Course" in
+            assert_equal true
+              (Schedule.compare_schedule (Schedule.add_course Schedule.empty_schedule course)
+              (Schedule.add_course Schedule.empty_schedule course)) );
          ( "Compare different two schedules w/ different # of courses"
          >:: fun _ ->
            assert_equal false
              (Schedule.compare_schedule
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 Schedule.empty_schedule) );
-         ( "Compare different two schedules w/ same # of courses" >:: fun _ ->
+         ( "Compare different two schedules w/ 1 course" >:: fun _ ->
            assert_equal false
              (Schedule.compare_schedule
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 (Schedule.add_course Schedule.empty_schedule
                    (Course.edit_course_name Course.empty_course "Course"))) );
+        ( "Compare same two schedules w/ 2 courses" >:: fun _ ->
+          let course = Course.edit_course_name Course.empty_course "Course" in
+          assert_equal true
+            (Schedule.compare_schedule
+              (Schedule.add_course (Schedule.add_course Schedule.empty_schedule course) course)
+              (Schedule.add_course ((Schedule.add_course Schedule.empty_schedule
+                  (Course.edit_course_name Course.empty_course "Course"))) course) ));
          ( "Test if an empty string is flagged as an output" >:: fun _ ->
            let s = "" in
            assert_equal false (Question.contains_numbering s 0) );
