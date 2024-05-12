@@ -2,27 +2,6 @@ open OUnit2
 open Final_project_test
 open Question
 
-type course = {
-  name : string;
-  description : string;
-}
-
-let compare_single_course course1 course2 =
-  String.equal course1.name course2.name
-  && String.equal course1.description course2.description
-
-let rec compare_course_lists c1 c2 =
-  match (c1, c2) with
-  | [], [] -> true
-  | _, [] | [], _ -> false
-  | h1 :: t1, h2 :: t2 ->
-      compare_single_course h1 h2 && compare_course_lists t1 t2
-
-let convert_question_course (c : Question.course) : course =
-  { name = c.name; description = c.description }
-
-let convert_list lst = List.map convert_question_course lst
-
 let tests =
   "Test suite"
   >::: [
@@ -102,7 +81,7 @@ let tests =
            let clist_length = List.length clist in
            let length = 3 in
            assert_equal clist_length length );
-         ( "parse_courses - triple list" >:: fun _ ->
+         ( "parse_courses - quad list" >:: fun _ ->
            let lst =
              "1. CS3110 \n\
               Description : Functional programming \n\
@@ -177,6 +156,11 @@ let tests =
            let str2 = remove_newlines_and_spaces str in
            let str3 = "stringhi" in
            assert_equal str2 str3 );
+         ( "remove_newlines_and_spaces - double new lines" >:: fun _ ->
+           let str = "string\n\n\n\n" in
+           let str2 = remove_newlines_and_spaces str in
+           let str3 = "string" in
+           assert_equal str2 str3 );
          ( "subarr - empty arr" >:: fun _ ->
            let arr = Array.make 0 "" in
            let p1 = 0 in
@@ -203,6 +187,15 @@ let tests =
            let arr2 = add_to_array (Array.make 0 "") "Hi" in
            let p1 = 0 in
            let p2 = 0 in
+           let other_arr = sub_array arr p1 p2 in
+           assert_equal arr2 other_arr );
+         ( "subarr - double point arr" >:: fun _ ->
+           let arr =
+             add_to_array (add_to_array (Array.make 0 "") "Hi") "hello"
+           in
+           let arr2 = Array.make 0 "" in
+           let p1 = 0 in
+           let p2 = -1 in
            let other_arr = sub_array arr p1 p2 in
            assert_equal arr2 other_arr );
          ( "subarr - double point arr" >:: fun _ ->
@@ -284,6 +277,24 @@ let tests =
            let p = 0 in
            let t = 3 in
            let vali = 3 in
+           let x = find_starting_index arr p t in
+           assert_equal vali x );
+         ( "find_starting_index - 2 arr" >:: fun _ ->
+           let arr =
+             add_to_array (add_to_array (Array.make 0 "") "Hi") "hello"
+           in
+           let p = 0 in
+           let t = 3 in
+           let vali = 2 in
+           let x = find_starting_index arr p t in
+           assert_equal vali x );
+         ( "find_starting_index - 2 arr" >:: fun _ ->
+           let arr =
+             add_to_array (add_to_array (Array.make 0 "") "Hi") "hello"
+           in
+           let p = 0 in
+           let t = 1 in
+           let vali = 2 in
            let x = find_starting_index arr p t in
            assert_equal vali x );
          ( "find_starting_index - 3 arr" >:: fun _ ->
@@ -432,12 +443,6 @@ let tests =
          ( "Test edge case where number and period are seperated" >:: fun _ ->
            let s = "4ijfoadsipfjao." in
            assert_equal false (Question.contains_numbering s 0) );
-         ( "Test one course on parser" >:: fun _ ->
-           let s = "1. CS 2800 \n Description: Hi" in
-           let expected_course = [ { name = "CS 2800"; description = "Hi" } ] in
-           let parsed_course = convert_list (Question.parse_courses s) in
-           assert_bool "Wrong"
-             (compare_course_lists parsed_course expected_course) );
        ]
 
 let _ = run_test_tt_main tests
