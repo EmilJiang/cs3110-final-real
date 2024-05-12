@@ -27,14 +27,13 @@ let parse_courses input =
     match lines with
     | [] -> List.rev courses
     | line :: rest ->
-        print_endline line;
         let trimmed_line = String.trim line in
         if
           String.length trimmed_line >= 11
           && String.sub trimmed_line 0 11 = "Description"
         then
           let description =
-            String.trim (String.sub line 12 (String.length line - 12))
+            String.trim (String.sub line 14 (String.length line - 14))
           in
           let new_course = { name = current_name; description } in
           parse_lines rest current_name (new_course :: courses)
@@ -45,6 +44,7 @@ let parse_courses input =
         then
           match String.index_opt line '-' with
           | Some idx ->
+              print_int idx;
               let name = String.sub line 3 (idx - 4) in
               parse_lines rest name courses
           | None -> parse_lines rest current_name courses
@@ -165,14 +165,6 @@ let setup () =
 
 let count_characters s = String.length s
 let round_up_division dividend divisor = (dividend + divisor - 1) / divisor
-
-let print_string_character_by_character s =
-  let char_seq = String.to_seq s in
-  Seq.iter
-    (fun c ->
-      print_char c;
-      print_newline ())
-    char_seq
 
 let is_printable c =
   let code = Char.code c in

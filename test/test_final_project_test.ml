@@ -2,6 +2,27 @@ open OUnit2
 open Final_project_test
 open Question
 
+type course = {
+  name : string;
+  description : string;
+}
+
+let compare_single_course course1 course2 =
+  String.equal course1.name course2.name
+  && String.equal course1.description course2.description
+
+let rec compare_course_lists c1 c2 =
+  match (c1, c2) with
+  | [], [] -> true
+  | _, [] | [], _ -> false
+  | h1 :: t1, h2 :: t2 ->
+      compare_single_course h1 h2 && compare_course_lists t1 t2
+
+let convert_question_course (c : Question.course) : course =
+  { name = c.name; description = c.description }
+
+let convert_list lst = List.map convert_question_course lst
+
 let tests =
   "Test suite"
   >::: [
@@ -384,7 +405,6 @@ let tests =
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 (Schedule.add_course Schedule.empty_schedule
                    (Course.edit_course_name Course.empty_course "Course"))) );
-         (*TODO*)
          ( "Test if an empty string is flagged as an output" >:: fun _ ->
            let s = "" in
            assert_equal false (Question.contains_numbering s 0) );
@@ -412,6 +432,12 @@ let tests =
          ( "Test edge case where number and period are seperated" >:: fun _ ->
            let s = "4ijfoadsipfjao." in
            assert_equal false (Question.contains_numbering s 0) );
+         ( "Test one course on parser" >:: fun _ ->
+           let s = "1. CS 2800 \n Description: Hi" in
+           let expected_course = [ { name = "CS 2800"; description = "Hi" } ] in
+           let parsed_course = convert_list (Question.parse_courses s) in
+           assert_bool "Wrong"
+             (compare_course_lists parsed_course expected_course) );
        ]
 
 let _ = run_test_tt_main tests

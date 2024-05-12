@@ -5,7 +5,7 @@ let height = 600
 let wrap_text text max_width =
   let rec split_lines words line cur_width lines =
     match words with
-    | [] -> List.rev (line :: lines)
+    | [] -> List.rev (List.rev line :: lines)
     | word :: rest ->
         let word_width = measure_text word 23 in
         if cur_width + word_width <= max_width then
@@ -28,6 +28,8 @@ let draw_course (x, y, width, height) (course : Question.course) =
   let description_text = course.description in
   let max_text_width = width - 20 in
   let wrapped_text = wrap_text description_text max_text_width in
+  print_endline "HIHIHIHI";
+  print_endline wrapped_text;
   draw_text wrapped_text (x + 10) (name_text_y + 50) 20 Color.black
 
 let main_loop course =

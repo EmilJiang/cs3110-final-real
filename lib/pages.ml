@@ -17,7 +17,7 @@ let is_mouse_over_button (button : Button.t) =
   && mouse_y >= float button.y
   && mouse_y <= float (button.y + button.height)
 
-let rec update_and_render current_screen =
+let update_and_render current_screen =
   match current_screen with
   | Home ->
       let button_width = 100 in
@@ -35,7 +35,9 @@ let rec update_and_render current_screen =
                   width = button_width;
                   height = button_height;
                 }
-      then Chat
+      then (
+        Raylib.clear_background Raylib.Color.white;
+        Chat)
       else Home
   | Chat ->
       let lst = Question.start () in
