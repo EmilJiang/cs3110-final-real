@@ -23,7 +23,10 @@ let main_loop lst_of_courses =
   let save_courses_text_x =
     text_x + ((300 - measure_text "Save courses" 20) / 2)
   in
-  draw_rectangle text_x 550 300 50 Color.skyblue;
+  let rectangle_x = 550 in
+  let rectangle_y = 300 in
+  let rectangle_z = 50 in
+  draw_rectangle text_x rectangle_x rectangle_y rectangle_z Color.skyblue;
   Raylib.draw_text header_text text_x text_y 20 Raylib.Color.black;
   Raylib.draw_text "Save courses" save_courses_text_x 570 20 Raylib.Color.black;
 
