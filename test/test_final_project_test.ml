@@ -406,11 +406,12 @@ let tests =
            assert_equal true
              (Schedule.compare_schedule Schedule.empty_schedule
                 Schedule.empty_schedule) );
-          ( "Compare same two schedules with 1 course" >:: fun _ ->
-            let course = Course.edit_course_name Course.empty_course "Course" in
-            assert_equal true
-              (Schedule.compare_schedule (Schedule.add_course Schedule.empty_schedule course)
-              (Schedule.add_course Schedule.empty_schedule course)) );
+         ( "Compare same two schedules with 1 course" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal true
+             (Schedule.compare_schedule
+                (Schedule.add_course Schedule.empty_schedule course)
+                (Schedule.add_course Schedule.empty_schedule course)) );
          ( "Compare different two schedules w/ different # of courses"
          >:: fun _ ->
            assert_equal false
@@ -465,6 +466,27 @@ let tests =
          ( "Test edge case where number and period are seperated" >:: fun _ ->
            let s = "4ijfoadsipfjao." in
            assert_equal false (Question.contains_numbering s 0) );
+         ( "Test parser" >:: fun _ ->
+           let s = "1. CS 2800 - blah \n Description: meow" in
+           let course = Question.parse_courses s in
+           let real = [ { name = "CS 2800"; description = "meow" } ] in
+           assert_equal true (compare_course_lists course real) );
+         ( "Test parser" >:: fun _ ->
+           let s =
+             "1. CS 2800 - blah \n\
+             \ Description: meow \n\
+             \ \n\
+             \              2. CS 3110 - blah \n\
+             \ Description: hi"
+           in
+           let course = Question.parse_courses s in
+           let real =
+             [
+               { name = "CS 2800"; description = "meow           " };
+               { name = "CS 3110"; description = "hi" };
+             ]
+           in
+           assert_equal false (compare_course_lists course real) );
        ]
 
 let _ = run_test_tt_main tests

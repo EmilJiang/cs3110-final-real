@@ -4,9 +4,9 @@ open Txttransfer
 type game_screen =
   | Home
   | Chat
-  | Loading of Question.course list
-  | List of Question.course list
-  | Description of (int * Question.course list)
+  | Loading of Schedule.t
+  | List of Schedule.t
+  | Description of (int * Schedule.t)
 
 let is_mouse_over_button (button : Button.t) =
   let mouse_position = get_mouse_position () in

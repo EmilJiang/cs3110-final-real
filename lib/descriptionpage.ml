@@ -16,7 +16,7 @@ let wrap_text text max_width =
   let lines = split_lines words [] 0 [] in
   String.concat "\n" (List.map (String.concat " ") lines)
 
-let draw_course (x, y, width, height) (course : Question.course) =
+let draw_course (x, y, width, height) (course : Course.t) =
   draw_rectangle x y width height Color.skyblue;
 
   let name_text = course.name in
@@ -32,7 +32,7 @@ let draw_course (x, y, width, height) (course : Question.course) =
   print_endline wrapped_text;
   draw_text wrapped_text (x + 10) (name_text_y + 50) 20 Color.black
 
-let main_loop course =
+let main_loop (course:Course.t) =
   begin_drawing ();
   clear_background Color.raywhite;
 
@@ -55,4 +55,4 @@ let main_loop course =
 
   end_drawing ()
 
-let start_description_page (course_list:Question.course) = main_loop course_list
+let start_description_page (course_list:Course.t) = main_loop course_list

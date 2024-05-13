@@ -9,11 +9,6 @@ type state = {
   index : int;
 }
 
-type course = {
-  name : string;
-  description : string;
-}
-
 let rec contains_numbering s i =
   if i > String.length s - 2 then false
   else
@@ -33,9 +28,9 @@ let read_file_as_string filename =
   in
   read_lines ""
 
-let parse_courses input =
+let parse_courses input : Schedule.t =
   let lines = String.split_on_char '\n' input in
-  let rec parse_lines lines current_name courses =
+  let rec parse_lines lines current_name (courses:Schedule.t) =
     match lines with
     | [] -> List.rev courses
     | line :: rest ->
@@ -47,7 +42,7 @@ let parse_courses input =
           let description =
             String.trim (String.sub line 15 (String.length line - 15))
           in
-          let new_course = { name = current_name; description } in
+          let new_course = Course.create_new_course current_name description in
           parse_lines rest current_name (new_course :: courses)
         else if
           String.contains line '.'
@@ -66,7 +61,8 @@ let parse_courses input =
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key" (Py.String.of_string "");
+  Py.Module.set openai "api_key"
+    (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [
@@ -147,7 +143,6 @@ let sub_array arr start_idx end_idx =
     done;
     result
 
-(** TODO change*)
 let remove_newlines_and_spaces s =
   s |> String.to_seq
   |> Seq.filter (function
@@ -239,7 +234,7 @@ let draw_txt arr index =
   end_drawing ();
   ()
 
-let rec loop s : course list =
+let rec loop s : Schedule.t =
   if Raylib.window_should_close () then []
   else
     let open Raylib in

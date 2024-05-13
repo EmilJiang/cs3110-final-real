@@ -7,7 +7,7 @@ let save_to_file filename content =
   output_string oc content;
   close_out oc
 
-let rec save_courses (lst : course list) =
+let rec save_courses (lst : Schedule.t) =
   match lst with
   | [] -> ()
   | h :: t ->

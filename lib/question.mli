@@ -1,7 +1,3 @@
-type course = {
-  name : string;
-  description : string;
-}
 (**[course] is a course. *)
 
 val output : string -> Pytypes.pyobject -> Pytypes.pyobject * string
@@ -35,13 +31,13 @@ val find_starting_index : string array -> int -> int -> int
 (**[find_starting_index] finds the starting index of [arr] with [max_offset] and
    [line_spacing]. *)
 
-val start : unit -> course list
+val start : unit -> Course.t list
 (**[start] begins the chat page and returns a course list.*)
 
 val contains_numbering : string -> int -> bool
 (**[contains_numbering] is whether or not [s] has 1, 2, 3, and 4. *)
 
-val parse_courses : string -> course list
+val parse_courses : string -> Course.t list
 (**[parse_courses] generates a course list out of the [input] string. *)
 
 val read_file_as_string : string -> string

@@ -1,6 +1,6 @@
 let width = 690
 
-let draw_course (x, y, width, height) (course : Question.course) =
+let draw_course (x, y, width, height) (course : Course.t) =
   let open Raylib in
   draw_rectangle x y width height Color.skyblue;
 
@@ -43,5 +43,5 @@ let main_loop lst_of_courses =
 
   end_drawing ()
 
-let start_list_page (lst_of_courses : Question.course list) =
+let start_list_page (lst_of_courses : Schedule.t) =
   main_loop lst_of_courses

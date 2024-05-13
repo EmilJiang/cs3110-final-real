@@ -1,4 +1,4 @@
-val start_description_page : Question.course -> unit
+val start_description_page : Course.t -> unit
 (**[start_description_page] draws the description page with Raylib with the
    given [course_list]*)
 
