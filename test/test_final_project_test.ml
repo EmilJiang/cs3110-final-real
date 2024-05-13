@@ -348,7 +348,7 @@ let tests =
            let boo = is_printable char in
            assert_equal boo true );
          ( "Default button" >:: fun _ ->
-           assert_equal "0, 0, 10, 10"
+           assert_equal "0, 70, 800, 100"
              (Button.button_to_string Button.default_button) );
          ( "New button" >:: fun _ ->
            assert_equal "5, 5, 5, 5"
@@ -356,11 +356,11 @@ let tests =
          ( "Button x" >:: fun _ ->
            assert_equal 0 (Button.button_x Button.default_button) );
          ( "Button y" >:: fun _ ->
-           assert_equal 0 (Button.button_y Button.default_button) );
+           assert_equal 70 (Button.button_y Button.default_button) );
          ( "Button width" >:: fun _ ->
-           assert_equal 10 (Button.button_width Button.default_button) );
+           assert_equal 800 (Button.button_width Button.default_button) );
          ( "Button height" >:: fun _ ->
-           assert_equal 10 (Button.button_height Button.default_button) );
+           assert_equal 100 (Button.button_height Button.default_button) );
          ( "Compare equal buttons" >:: fun _ ->
            assert_equal true
              (Button.compare_button Button.default_button Button.default_button)
@@ -424,21 +424,28 @@ let tests =
                 (Schedule.add_course Schedule.empty_schedule Course.empty_course)
                 (Schedule.add_course Schedule.empty_schedule
                    (Course.edit_course_name Course.empty_course "Course"))) );
-        ( "Compare same two schedules w/ 2 courses" >:: fun _ ->
-          let course = Course.edit_course_name Course.empty_course "Course" in
-          assert_equal true
-            (Schedule.compare_schedule
-              (Schedule.add_course (Schedule.add_course Schedule.empty_schedule course) course)
-              (Schedule.add_course ((Schedule.add_course Schedule.empty_schedule
-                  (Course.edit_course_name Course.empty_course "Course"))) course) ));
-        ( "Compare different two schedules w/ 2 courses" >:: fun _ ->
-          let course = Course.edit_course_name Course.empty_course "Course" in
-          assert_equal false
-            (Schedule.compare_schedule
-              (Schedule.add_course (Schedule.add_course Schedule.empty_schedule course) 
-              (Course.edit_course_name Course.empty_course "CourseDiff"))
-              (Schedule.add_course ((Schedule.add_course Schedule.empty_schedule
-                  (Course.edit_course_name Course.empty_course "Course"))) course) ));
+         ( "Compare same two schedules w/ 2 courses" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal true
+             (Schedule.compare_schedule
+                (Schedule.add_course
+                   (Schedule.add_course Schedule.empty_schedule course)
+                   course)
+                (Schedule.add_course
+                   (Schedule.add_course Schedule.empty_schedule
+                      (Course.edit_course_name Course.empty_course "Course"))
+                   course)) );
+         ( "Compare different two schedules w/ 2 courses" >:: fun _ ->
+           let course = Course.edit_course_name Course.empty_course "Course" in
+           assert_equal false
+             (Schedule.compare_schedule
+                (Schedule.add_course
+                   (Schedule.add_course Schedule.empty_schedule course)
+                   (Course.edit_course_name Course.empty_course "CourseDiff"))
+                (Schedule.add_course
+                   (Schedule.add_course Schedule.empty_schedule
+                      (Course.edit_course_name Course.empty_course "Course"))
+                   course)) );
          ( "Test if an empty string is flagged as an output" >:: fun _ ->
            let s = "" in
            assert_equal false (Question.contains_numbering s 0) );

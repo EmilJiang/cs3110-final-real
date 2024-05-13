@@ -12,10 +12,10 @@ let is_mouse_over_button (button : Button.t) =
   let mouse_position = get_mouse_position () in
   let mouse_x = Raylib.Vector2.x mouse_position in
   let mouse_y = Raylib.Vector2.y mouse_position in
-  mouse_x >= float button.x
-  && mouse_x <= float (button.x + button.width)
-  && mouse_y >= float button.y
-  && mouse_y <= float (button.y + button.height)
+  mouse_x >= float (Button.button_x button)
+  && mouse_x <= float (Button.button_x button + Button.button_width button)
+  && mouse_y >= float (Button.button_y button)
+  && mouse_y <= float (Button.button_y button + Button.button_height button)
 
 let update_and_render current_screen =
   match current_screen with
@@ -29,19 +29,17 @@ let update_and_render current_screen =
         is_key_pressed Key.Enter
         || is_gesture_detected Gesture.Tap
            && is_mouse_over_button
-                {
-                  x = button_x;
-                  y = button_y;
-                  width = button_width;
-                  height = button_height;
-                }
+                (Button.new_button button_x button_y button_width button_height)
       then (
         Raylib.clear_background Raylib.Color.white;
         Chat)
       else Home
   | Chat ->
-      let lst = Question.start () in
-      Loading lst
+      let (lst : Schedule.t) = Question.start () in
+      assert (Schedule.in_schedule lst (List.nth lst 1));
+      if List.length lst = 5 then
+        Loading (Schedule.remove_course lst (List.nth lst 4))
+      else Loading lst
   | Loading lst ->
       let start_time = Raylib.get_time () in
       let rec game_loop start_time =
@@ -63,10 +61,11 @@ let update_and_render current_screen =
           + 50)
           550 300 50
       in
-      let button_one = Button.new_button 0 70 800 100 in
+      let button_one = Button.default_button in
       let button_two = Button.new_button 0 190 800 100 in
       let button_three = Button.new_button 0 310 800 100 in
       let button_four = Button.new_button 0 430 800 100 in
+      assert (Button.compare_button button_one button_two = false);
       Listpage.start_list_page lst;
       if is_gesture_detected Gesture.Tap && is_mouse_over_button button_one then
         Description (0, lst)

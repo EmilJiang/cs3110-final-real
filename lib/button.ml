@@ -5,7 +5,7 @@ type t = {
   height : int;
 }
 
-let default_button = { x = 0; y = 0; width = 10; height = 10 }
+let default_button = { x = 0; y = 70; width = 800; height = 100 }
 let new_button x y width height = { x; y; width; height }
 let button_x button = button.x
 let button_y button = button.y

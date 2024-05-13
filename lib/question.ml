@@ -30,7 +30,7 @@ let read_file_as_string filename =
 
 let parse_courses input : Schedule.t =
   let lines = String.split_on_char '\n' input in
-  let rec parse_lines lines current_name (courses:Schedule.t) =
+  let rec parse_lines lines current_name (courses : Schedule.t) =
     match lines with
     | [] -> List.rev courses
     | line :: rest ->
@@ -42,7 +42,11 @@ let parse_courses input : Schedule.t =
           let description =
             String.trim (String.sub line 15 (String.length line - 15))
           in
-          let new_course = Course.create_new_course current_name description in
+          let new_course = Course.create_new_course "default" "desc" in
+          let new_course =
+            Course.edit_course_description new_course description
+          in
+          let new_course = Course.edit_course_name new_course current_name in
           parse_lines rest current_name (new_course :: courses)
         else if
           String.contains line '.'
@@ -61,8 +65,7 @@ let parse_courses input : Schedule.t =
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key"
-    (Py.String.of_string "");
+  Py.Module.set openai "api_key" (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [

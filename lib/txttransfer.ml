@@ -1,5 +1,3 @@
-open Question
-
 let save_to_file filename content =
   let oc =
     open_out_gen [ Open_wronly; Open_append; Open_creat ] 0o666 filename
