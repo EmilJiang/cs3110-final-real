@@ -2,6 +2,8 @@ open OUnit2
 open Final_project_test
 open Question
 
+(** Testing document is found in "Testing Document.pdf". *)
+
 let tests =
   "Test suite"
   >::: [
@@ -426,6 +428,14 @@ let tests =
           assert_equal true
             (Schedule.compare_schedule
               (Schedule.add_course (Schedule.add_course Schedule.empty_schedule course) course)
+              (Schedule.add_course ((Schedule.add_course Schedule.empty_schedule
+                  (Course.edit_course_name Course.empty_course "Course"))) course) ));
+        ( "Compare different two schedules w/ 2 courses" >:: fun _ ->
+          let course = Course.edit_course_name Course.empty_course "Course" in
+          assert_equal false
+            (Schedule.compare_schedule
+              (Schedule.add_course (Schedule.add_course Schedule.empty_schedule course) 
+              (Course.edit_course_name Course.empty_course "CourseDiff"))
               (Schedule.add_course ((Schedule.add_course Schedule.empty_schedule
                   (Course.edit_course_name Course.empty_course "Course"))) course) ));
          ( "Test if an empty string is flagged as an output" >:: fun _ ->

@@ -1,3 +1,545 @@
+commit dff07dc7b82ad187a0548ee23cd0db091a37bf40
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 20:35:01 2024 -0400
+
+    Add tests to scheduling module
+    
+    - Added more tests for scheduling module
+
+commit 28b6e36859df4bd90a69bf1acaa7e06a45ea2317
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 20:25:28 2024 -0400
+
+    Modified listpage
+    
+    - Seperated code for coherence
+
+commit f6f5a7f19fdddefe85e3cbae1fa6c337904a32b0
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 20:25:03 2024 -0400
+
+    Added more test case
+    
+    - Corner cases for testing
+    - Extended code confidence
+
+commit 9a34aa2d4afec419f2fa29f82a079d627d32885c
+Merge: 7a6ba05 e89e765
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 20:12:54 2024 -0400
+
+    Merge branch 'main' of github.com:EmilJiang/cs3110-final-real
+
+commit 7a6ba0533e3be8ae8eadccbf717c0c728b28f32d
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 20:12:43 2024 -0400
+
+    Update INSTALL.txt
+    
+    - Edited INSTALL.txt for dune testing
+
+commit e89e7657b3410b3ed21bf354cfd6884ad2f68401
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 20:11:51 2024 -0400
+
+    Added documentation
+    
+    - Added to transfer.mli file
+
+commit a7e7c56902c582b35647a1800c9eb0e962c4124a
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 20:10:16 2024 -0400
+
+    Improve prompt and fix courses.txt
+    
+    - Improved prompt to remove repetitive questions
+    - Fixed courses.txt
+
+commit 051f279ab037191fe1275299454c66eaca5d51cb
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Sat May 11 20:05:37 2024 -0400
+
+    Add test case and fix small bug
+    
+    - Fixed the bug where the string is backwards in the description page
+    - Added test for the parser
+
+commit 195fcb0abe6e344cb1e62956222c2734623396c1
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 19:59:16 2024 -0400
+
+    Added transfer features
+    
+    - Added transfer functionality
+    - Added to transfer mli
+
+commit 9b33ec992b67060af650ac90ce7613480117b2be
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 19:58:05 2024 -0400
+
+    Added new save feature
+    
+    - Allows the user to save courses with button click
+    - Saves to courses.txt file
+
+commit cb3006e2f793699f98d162f2fe44f5de662574fd
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 19:25:53 2024 -0400
+
+    Add button functionality to pages.ml
+    
+    - Added functionality to button that saves courses to file
+
+commit b378f106a6114831b1ff563040ebaa4f92e4a682
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 19:12:33 2024 -0400
+
+    Added save to txt file code
+    
+    - Created new file with functionality
+    - Created mli file with documentation
+
+commit 783e01552002faafdb7937519f1280d7d46709fd
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 11 19:07:03 2024 -0400
+
+    centered save courses
+    
+    - Centered rectangle
+    - Centered text
+
+commit d5d17eb0e06860b187fa2ba8784ee1a3b6ca9c5f
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 18:58:50 2024 -0400
+
+    Edit OpenAI API prompt
+    
+    - Edited prompt to make output more accurate
+
+commit 029f14cd0b16ac6c39f49f466a38aa1203c43336
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 11 18:44:16 2024 -0400
+
+    Edit various meta-files
+    
+    - Edited INSTALL.txt and project.yaml files
+    - Added buttons to listpage.ml to save courses
+
+commit 33d7394c6c7351b9153d656f11cae60b53135c5b
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Mon May 6 17:58:47 2024 -0400
+
+    Tested parser
+    
+    - Tested parser at all possible sizes
+
+commit 71005754a27dafc5007698f033fd246eb0d84628
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Mon May 6 17:31:04 2024 -0400
+
+    Add comments/documentation
+    
+    - Added comments to every function in every .mli file
+
+commit 40c62f3e633834145990e4a1ed49d5de6adda559
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Mon May 6 17:00:41 2024 -0400
+
+    Add test cases
+    
+    - Tested checking the output of chatgpt
+
+commit 43ac08d764a82d7b729f5a3fe092bc0e7d3977eb
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Mon May 6 11:47:35 2024 -0400
+
+    Add button to descriptionpage.ml
+    
+    - Added button functionality to description page
+
+commit 1e20c9a6e1e5ba79ececd5399a4eaf540feee42f
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Mon May 6 11:44:18 2024 -0400
+
+    Updated testing
+    
+    - Removed bad test
+
+commit f45b86c4290b0ff7a3e5ee8791b7c5d12e7d23dc
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Mon May 6 11:29:40 2024 -0400
+
+    Add question.ml screen to user flow
+    
+    - Fixed issues with question.ml visibility
+
+commit baff1da9a6fb4787bd07eff70a3c786ac6a18fe0
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Sat May 4 18:18:56 2024 -0400
+
+    Integrated everything together
+    
+    - Skeleton of code works with [question.ml]
+    - After [question.ml], screen changes to [descriptionpage.ml]
+
+commit 98580bfec9355898615fa70bcce3801f7449a5df
+Merge: ec5527c 7148369
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 4 18:06:46 2024 -0400
+
+    Merge branch 'main' of github.com:EmilJiang/cs3110-final-real
+
+commit ec5527cbcdd637dd82586226627bdaf1d3d718b6
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 4 18:06:36 2024 -0400
+
+    Add more schedule test cases
+    
+    - Created functionality to compare two schedules
+    - Tested it with same and different schedules
+
+commit 714836984dd11021e3f2c2d5369bc9abec489344
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 4 17:58:39 2024 -0400
+
+    Added documentation
+    
+    - Added start home page comments
+
+commit b4119a099652a63d7f07b03597fb9df5ed7bb38f
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 4 17:57:20 2024 -0400
+
+    Added documentation
+    
+    - Added comments
+    - Finished description page documentation
+
+commit c2431f256048f62d432cffd08702500153d3f161
+Merge: 5938f0a 031f71a
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 4 17:51:50 2024 -0400
+
+    Merge branch 'main' of github.com:EmilJiang/cs3110-final-real
+
+commit 5938f0a885afb90d487f32b25f440f07f640d9e3
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat May 4 17:50:09 2024 -0400
+
+    Create schedule module and tests
+    
+    - Created schedule that models a list of courses
+    - Test functions within that schedule
+
+commit 031f71a7bceab6e52e2d15a1cd641b60a7067aba
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 4 17:49:56 2024 -0400
+
+    Added documentation
+    
+    - Added comments to button.mli
+
+commit ec9b16d2b0fd34108f3e79f079cd639194c80229
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 4 17:48:46 2024 -0400
+
+    Added more to question.mli
+    
+    - Exposed more functions
+    - Tested
+
+commit 77f6bdfccf071a009acb8439d2a3f82abdee5eb9
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat May 4 17:36:44 2024 -0400
+
+    Added tests
+    
+    - Tested finding starting index
+    - Tested calc total y offset
+
+commit dd68c2ac759cc0d7f19222b07b19f9de2566a2ac
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Sat May 4 16:20:59 2024 -0400
+
+    Add Parser for chatgpt output
+    
+    - Allowed user to switch to see the chatgpt output automatically
+
+commit caa40a492f15dff73f06ee14f787b0a7e0ffaa16
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed May 1 21:37:28 2024 -0400
+
+    Add button module and more tests
+    
+    -  Added test cases for button module
+    - Created button module to be used in all UI files
+
+commit 9d4c2310ba6fe56647f23883904004ea8765884d
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 21:36:05 2024 -0400
+
+    Added question.mli functions
+    
+    - Added more functions
+
+commit 9a643b7278b89c2c176f44e9461ca2a3e736b004
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 21:35:22 2024 -0400
+
+    Added tests
+    
+    - Added is printable tests
+    - Added round up tests
+
+commit dec5e9f93d6b26e02ce0c09adca2b3e082c25d7b
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 21:05:40 2024 -0400
+
+    Added tests
+    
+    - Added Nathan's tests
+    - Added output tests
+
+commit 5d865232dab47c5e975b7dfe40b60a1dca1a87e7
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed May 1 20:59:25 2024 -0400
+
+    Add course functionality
+    
+    - Added empty course, edit course name/description, and compare courses
+    - Edited homepage and loadingpage.mli files
+
+commit 880873fd79b663f3db646d0ce3188e38ab5b7ac2
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 20:59:17 2024 -0400
+
+    Added tests
+    
+    - Tested count characters
+    - Tested output
+
+commit 317ba21ac4c3ceb7c3db03d6fee55473c77974b8
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 20:31:31 2024 -0400
+
+    Added two tests
+    
+    - Tested count characters
+
+commit 61fc1554851d21ee74d497a6bb1c66e66b55ca16
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 20:24:09 2024 -0400
+
+    Fixed animation
+    
+    - Made it faster
+    - Removed unecessary code
+
+commit 94e2878ca7fe5826b414f6d3bd949ed8d9bd8d5f
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed May 1 19:51:01 2024 -0400
+
+    Fixed bug
+    
+    - Modified question.ml
+
+commit 7394e756fa669055078f5d7e8b193e28d9a060a3
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Mon Apr 29 16:53:58 2024 -0400
+
+    Implement scrolling ability and keeps text on screen
+    
+    - added scrolling implementation with arrow keys in [question.ml]
+    - added function that stops text from overfilling
+
+commit 3536907b9d7b52ec2f2175f45177f53b1f0ce4c7
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Fri Apr 26 17:18:39 2024 -0400
+
+    Rearrange code properly
+    
+    - Added all files to lib folder
+    - Fixed test_final_project_test.ml file
+
+commit 8194c2d5da68d60e062170aa7d54f7b224862c80
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Fri Apr 26 16:52:26 2024 -0400
+
+    Correct indexes for description
+
+commit 57ee159fe9233815cbe647fee9f226bbcce553b5
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Wed Apr 24 21:33:50 2024 -0400
+
+    Enable text to stay on screen
+    
+    - wrapped text on question.ml
+    - moves the starting text based on keeping all the text on screen by favoring the latest output
+
+commit ae2868d875aa4219098a387682db022a56d1b005
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed Apr 24 21:30:17 2024 -0400
+
+    Add inter-pages functionality
+    
+    - Added buttons to listpage.ml
+    - Added .mli files for each page
+    - Create compilation unit for courses
+
+commit 29086325951a9217aa7f8c971599d7253177bd31
+Merge: 74ebfac 9e0ee0a
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 24 21:27:32 2024 -0400
+
+    Merge branch 'main' of https://github.com/EmilJiang/cs3110-final-real
+
+commit 74ebfacfe89da2108715f86df137d1620700674b
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 24 21:27:19 2024 -0400
+
+    Added Details
+    
+    - Added fonts
+    - Removed animation
+    - Began tests
+
+commit 9e0ee0ab691c548cf1f7960d949e4b153ae4dc23
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Sat Apr 20 22:45:36 2024 -0400
+
+    Create prettier output
+    
+    - Question and Answer are like text messages output
+    - Added ability to wrap text around to a second line
+
+commit eeec64add4fb47dd96e4856ee6309ab58d9db03f
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat Apr 20 18:02:00 2024 -0400
+
+    Played with fonts
+    
+    - Added font input
+    - Need to continue
+
+commit 0025bed8d4aa04edd0ffd363cdda496a4b295aad
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat Apr 20 18:00:22 2024 -0400
+
+    Create button functionality
+    
+    - Allows for moving between pages only if a specific button is pushed
+    - Removed ability to move on by clicking anywhere
+
+commit 19a01432d9fba741cbef84c4f2f372b06fde9f74
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Sat Apr 20 17:24:46 2024 -0400
+
+    Combine all pages together
+    
+    - Put all pages together with proper order
+    - Set ttimer on loadingpage.ml so loading is only 2 seconds
+
+commit ce79b217baf02c4b6addde12b728a67fc7b87e61
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat Apr 20 17:19:55 2024 -0400
+
+    Added course description page
+    
+    - Created wrap text functionality to accept any description lenfth
+    - Added back to courses button (does nothing now currently)
+    - Shows name and description
+
+commit 39a49051b750229dc087d646659f1939edd39fe8
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Sat Apr 20 16:23:57 2024 -0400
+
+    Fixed pages
+    
+    - Modified loading page and reversed back
+    - Added start to homepage
+
+commit 75a5fecf84ffe4dc6a092151f2cdfbdb812be464
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Fri Apr 19 22:59:13 2024 -0400
+
+    Add a Question Page
+    
+    - Implemented a page that takes in output from user and sends it to chatgpt to keep asking questions
+
+commit a489107840a0f17d1683f521dd59c69c27267d9e
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed Apr 17 21:05:06 2024 -0400
+
+    Implemented cross-page functionality
+    
+    - Put all pages together
+    - Allow users to switch between pages by clicking
+
+commit 9d4f097f53a0574871dda09ea9c9210bfc5a9bff
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 17 21:02:39 2024 -0400
+
+    Modified loading page
+    
+    - Modified fps
+    - Added button (need to remove later)
+
+commit d84184266dbc0da9389e74a266275d80aebd5472
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 17 21:01:38 2024 -0400
+
+    Home page created
+    
+    - Created foundations for homepage
+    - Made animation
+
+commit 8c75610b96e910850732f280dd60172c252a1456
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 17 20:37:48 2024 -0400
+
+    Made loading page
+    
+    - Create animation for loading page
+    - Allows for custom frame change
+    - Infinited loading page for now
+
+commit 55e713f17dfcdaa406a789cb776f17225a006dea
+Author: Nathan Chu <nwc35@cornell.edu>
+Date:   Wed Apr 17 20:20:22 2024 -0400
+
+    Added ChatGPT prompt for scheduling
+    
+    - Created prompt for openai API to act as a scheduler
+    - Add pre-set training questions and change format for terminal
+
+commit 5ae56ed2b2c19556f892ce87af7d4b1caeff221a
+Author: Cindy Li <cl2674@cornell.edu>
+Date:   Wed Apr 17 20:13:58 2024 -0400
+
+    Created course listing page
+    
+    - Takes in a list of courses
+    - Shows all of them in GUI form on a new page
+    - Need to make them buttons that bring to description page
+
+commit 0beed98f0232a58d686eee56b406cdad05e7b672
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Fri Apr 12 22:17:38 2024 -0400
+
+    Switch to Raylib
+    
+    -Switch gui to raylib library
+    -Added demo code
+
+commit 4953efc4a3f1619a7037a034f93b6742aa819431
+Author: Emil Jiang <eyj7@cornell.edu>
+Date:   Sat Apr 6 17:24:22 2024 -0400
+
+    Start UI
+    
+    - Installed Bogue
+    - Enabled users to type and get a reply back in terminal
+
 commit 0287c90057b5568142982d6e720d45079b5b875f
 Author: Emil Jiang <eyj7@cornell.edu>
 Date:   Wed Mar 27 20:09:05 2024 -0400
@@ -16,7 +558,6 @@ Date:   Wed Mar 27 20:05:43 2024 -0400
     - Commited project.yaml to main branch
     - Added OpenAPI information to install.txt
 
-
 commit 36357eb35a69265d9d2800bd45bb2508a2e634f0
 Author: Cindy Li <cl2674@cornell.edu>
 Date:   Wed Mar 27 19:39:55 2024 -0400
@@ -25,14 +566,6 @@ Date:   Wed Mar 27 19:39:55 2024 -0400
     
     - Specified group information
     - Added project description and details
-
-commit 1c8684d2098f65440e49a5843ecb46d762b66c76
-Author: Nathan Chu <nwc35@cornell.edu>
-Date:   Wed Mar 27 19:35:49 2024 -0400
-
-    Create IDE framework 
-    - Took code from pre-existing IDE OCaml to JS bindings
-    - Added installation instructions and project.yaml file
 
 commit 2474979b601136feec042323f5ab2be0c7b71feb
 Author: Emil Jiang <eyj7@cornell.edu>

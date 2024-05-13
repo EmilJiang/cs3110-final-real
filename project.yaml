@@ -18,3 +18,6 @@ desc: >
   classes that they may be interested in. Using the results of the user input, 
   a schedule with 4 classes is presented which contains the course titles and 
   descriptions.
+
+  We've also added a user-friendly GUI that allows users to view and save their
+  classes for future use.
