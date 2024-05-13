@@ -43,3 +43,7 @@ val contains_numbering : string -> int -> bool
 
 val parse_courses : string -> course list
 (**[parse_courses] generates a course list out of the [input] string. *)
+
+val read_file_as_string : string -> string
+(**[read_file_as_string] takes in a file name and returns the string of that
+   file read*)

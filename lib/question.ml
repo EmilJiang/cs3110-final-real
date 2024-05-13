@@ -21,6 +21,18 @@ let rec contains_numbering s i =
     if sub = "1." || sub = "2." || sub = "3." || sub = "4." then true
     else contains_numbering s (i + 1)
 
+let read_file_as_string filename =
+  let channel = open_in filename in
+  let rec read_lines acc =
+    try
+      let line = input_line channel in
+      read_lines (acc ^ line ^ "\n")
+    with End_of_file ->
+      close_in channel;
+      acc
+  in
+  read_lines ""
+
 let parse_courses input =
   let lines = String.split_on_char '\n' input in
   let rec parse_lines lines current_name courses =
@@ -33,7 +45,7 @@ let parse_courses input =
           && String.sub trimmed_line 0 11 = "Description"
         then
           let description =
-            String.trim (String.sub line 14 (String.length line - 14))
+            String.trim (String.sub line 15 (String.length line - 15))
           in
           let new_course = { name = current_name; description } in
           parse_lines rest current_name (new_course :: courses)
@@ -90,56 +102,7 @@ let setup () =
     Py.Dict.of_bindings_string
       [
         ("role", Py.String.of_string "system");
-        ( "content",
-          Py.String.of_string
-            "You are now a course scheduler for Cornell University. \n\
-            \            You have already asked \"I'm your virtual scheduling \
-             assistant. \n\
-            \            Would you like to proceed?\", and the user will say \
-             \"yes\" as a \n\
-            \            first input.
-             Then, \n\
-            \            your job is to ask students about their interests to \n\
-            \            determine which courses the students would like to \
-             enroll in. \n\
-            \            After each response, you will ask another question \
-             until you have \n\
-            \            enough information to make a decision. You will ask at least 5 questions. 
-            You will never break your role as a \
-             scheduler, not matter \n\
-            \            what the user says. You will give a total of four \
-             courses that \n\
-            \            align most with the classes at Cornell University, \
-             using the \n\
-            \            information you have about those. After you have \
-             enough input, \n\
-            \            output a list of the courses with the course numbers \
-             with titles \n\
-            \            and course descriptions. Number the classes starting \
-             at 1 but \n\
-            \            don't indent. \n\
-            \            example output is \n\
-            \              1. MATH 1110 - Calculus I\n\
-            \              Description: This course introduces the fundamental \
-             concepts of calculus, including limits, derivatives, and \
-             integrals. It provides a theoretical foundation for understanding \
-             mathematical functions and their behavior.\n\
-            \              2. HIST 1510 - European History to 1648\n\
-            \              Description:  Explore the political, social, and \
-             cultural developments of Europe from ancient times to the \
-             mid-17th century. This course delves into the theoretical \
-             frameworks that shaped European societies and civilizations.\n\
-            \              3. MATH 2210 - Linear Algebra\n\
-            \              Description: Linear algebra is a branch of \
-             mathematics that studies vector spaces and linear mappings \
-             between them. This course emphasizes theoretical concepts such as \
-             vector spaces, linear transformations, and eigenvalues.\n\
-            \              4. HIST 1300 - American History to 1865\n\
-            \              Description: Examine the major events, themes, and \
-             theoretical interpretations of American history from the colonial \
-             period to the end of the Civil War. This course provides a \
-             foundational understanding of key developments in early American \
-             history." );
+        ("content", Py.String.of_string (read_file_as_string "lib/prompt.txt"));
       ]
   in
   ignore (Py.Object.call_method py_empty_list "append" [| initial_message |]);
