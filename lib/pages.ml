@@ -36,10 +36,7 @@ let update_and_render current_screen =
       else Home
   | Chat ->
       let (lst : Schedule.t) = Question.start () in
-      assert (Schedule.in_schedule lst (List.nth lst 1));
-      if List.length lst = 5 then
-        Loading (Schedule.remove_course lst (List.nth lst 4))
-      else Loading lst
+      Loading lst
   | Loading lst ->
       let start_time = Raylib.get_time () in
       let rec game_loop start_time =
@@ -55,34 +52,40 @@ let update_and_render current_screen =
       in
       game_loop start_time
   | List lst ->
-      let save_file_button =
-        Button.new_button
-          (((690 - Raylib.measure_text "Courses Recommended For You" 20) / 2)
-          + 50)
-          550 300 50
-      in
-      let button_one = Button.default_button in
-      let button_two = Button.new_button 0 190 800 100 in
-      let button_three = Button.new_button 0 310 800 100 in
-      let button_four = Button.new_button 0 430 800 100 in
-      assert (Button.compare_button button_one button_two = false);
-      Listpage.start_list_page lst;
-      if is_gesture_detected Gesture.Tap && is_mouse_over_button button_one then
-        Description (0, lst)
-      else if is_gesture_detected Gesture.Tap && is_mouse_over_button button_two
-      then Description (1, lst)
-      else if
-        is_gesture_detected Gesture.Tap && is_mouse_over_button button_three
-      then Description (2, lst)
-      else if
-        is_gesture_detected Gesture.Tap && is_mouse_over_button button_four
-      then Description (3, lst)
-      else if
-        is_gesture_detected Gesture.Tap && is_mouse_over_button save_file_button
-      then
-        let _ = save_courses lst in
-        List lst
-      else List lst
+      assert (Schedule.in_schedule lst (List.nth lst 1));
+      if List.length lst = 5 then
+        Loading (Schedule.remove_course lst (List.nth lst 4))
+      else
+        let save_file_button =
+          Button.new_button
+            (((690 - Raylib.measure_text "Courses Recommended For You" 20) / 2)
+            + 50)
+            550 300 50
+        in
+        let button_one = Button.default_button in
+        let button_two = Button.new_button 0 190 800 100 in
+        let button_three = Button.new_button 0 310 800 100 in
+        let button_four = Button.new_button 0 430 800 100 in
+        assert (Button.compare_button button_one button_two = false);
+        Listpage.start_list_page lst;
+        if is_gesture_detected Gesture.Tap && is_mouse_over_button button_one
+        then Description (0, lst)
+        else if
+          is_gesture_detected Gesture.Tap && is_mouse_over_button button_two
+        then Description (1, lst)
+        else if
+          is_gesture_detected Gesture.Tap && is_mouse_over_button button_three
+        then Description (2, lst)
+        else if
+          is_gesture_detected Gesture.Tap && is_mouse_over_button button_four
+        then Description (3, lst)
+        else if
+          is_gesture_detected Gesture.Tap
+          && is_mouse_over_button save_file_button
+        then
+          let _ = save_courses lst in
+          List lst
+        else List lst
   | Description (i, lst) ->
       let button = Button.new_button 275 520 250 40 in
       Descriptionpage.start_description_page (List.nth lst i);

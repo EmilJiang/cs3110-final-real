@@ -55,7 +55,6 @@ let parse_courses input : Schedule.t =
         then
           match String.index_opt line '-' with
           | Some idx ->
-              print_int idx;
               let name = String.sub line 3 (idx - 4) in
               parse_lines rest name courses
           | None -> parse_lines rest current_name courses
@@ -65,7 +64,8 @@ let parse_courses input : Schedule.t =
 
 let output text lst =
   let openai = Py.Import.import_module "openai" in
-  Py.Module.set openai "api_key" (Py.String.of_string "");
+  Py.Module.set openai "api_key"
+    (Py.String.of_string "");
   let message =
     Py.Dict.of_bindings_string
       [

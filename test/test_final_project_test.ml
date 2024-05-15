@@ -2,8 +2,6 @@ open OUnit2
 open Final_project_test
 open Question
 
-(** Testing document is found in "Testing Document.pdf". *)
-
 let tests =
   "Test suite"
   >::: [
@@ -473,27 +471,40 @@ let tests =
          ( "Test edge case where number and period are seperated" >:: fun _ ->
            let s = "4ijfoadsipfjao." in
            assert_equal false (Question.contains_numbering s 0) );
-         ( "Test parser" >:: fun _ ->
-           let s = "1. CS 2800 - blah \n Description: meow" in
-           let course = Question.parse_courses s in
-           let real = [ { name = "CS 2800"; description = "meow" } ] in
-           assert_equal true (compare_course_lists course real) );
-         ( "Test parser" >:: fun _ ->
+         ( "Test parser on one class" >:: fun _ ->
+           let s = "1. MATH 1110 - Calculus I\n Description:  blah\n " in
+           let sch = Question.parse_courses s in
+           let course1 = Course.create_new_course "MATH 1110" "blah" in
+           let real_sch = Schedule.empty_schedule in
+           let real_sch = Schedule.add_course real_sch course1 in
+           assert_equal true (Schedule.compare_schedule sch real_sch) );
+         ( "Test parser on two class" >:: fun _ ->
            let s =
-             "1. CS 2800 - blah \n\
-             \ Description: meow \n\
-             \ \n\
-             \              2. CS 3110 - blah \n\
-             \ Description: hi"
+             "1. MATH 1110 - Calculus I\n\
+             \ Description:  math\n\
+              2. CS 2110 - Python\n\
+             \ Description:  computer science\n"
            in
-           let course = Question.parse_courses s in
-           let real =
-             [
-               { name = "CS 2800"; description = "meow           " };
-               { name = "CS 3110"; description = "hi" };
-             ]
+           let sch = Question.parse_courses s in
+           let course1 = Course.create_new_course "MATH 1110" "math" in
+           let course2 =
+             Course.create_new_course "CS 2110" "computer science"
            in
-           assert_equal false (compare_course_lists course real) );
+           let real_sch = Schedule.empty_schedule in
+           let real_sch = Schedule.add_course real_sch course1 in
+           let real_sch = Schedule.add_course real_sch course2 in
+           assert_equal true (Schedule.compare_schedule sch real_sch) );
+
+           ( "Test parser on edge case" >:: fun _ ->
+            let s =
+              "MATH 1110 - Calculus I\n\
+              \ Description:  math"
+            in
+            let sch = Question.parse_courses s in
+            let course1 = Course.create_new_course "" "math" in
+            let real_sch = Schedule.empty_schedule in
+            let real_sch = Schedule.add_course real_sch course1 in
+            assert_equal true (Schedule.compare_schedule sch real_sch) );
        ]
 
 let _ = run_test_tt_main tests

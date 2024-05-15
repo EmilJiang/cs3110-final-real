@@ -1,7 +1,7 @@
 type t = Course.t list
 
 let empty_schedule = []
-let add_course (schedule : t) (course : Course.t) : t = course :: schedule
+let add_course (schedule : t) (course : Course.t) : t = schedule @ [ course ]
 
 let rec remove_course (schedule : t) (course : Course.t) : t =
   match schedule with
@@ -27,7 +27,7 @@ let rec compare_schedule (schedule1 : t) (schedule2 : t) =
   match (schedule1, schedule2) with
   | [], [] -> true
   | h1 :: t1, h2 :: t2 ->
-      if h1.name == h2.name && h1.description == h2.description then
+      if h1.name = h2.name && h1.description = h2.description then
         compare_schedule t1 t2
       else false
   | _, _ -> false
