@@ -2,7 +2,8 @@
 
 Notes: 
 - This program requires python3 with version 3.11 (NOT 3.12) to be installed. 
-  - You can switch python versions by using a python manager such as pyenv
+  - You can switch python versions by using a python manager such as pyenv, or 
+    installing 3.11 on your computer if it isn't already installed.
 - Step 6 (putting in the API key) must be completed before dune test can be run
 
 1. Navigate to the cs3110-final-real (root) folder in terminal
