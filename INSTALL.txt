@@ -2,6 +2,7 @@
 
 Notes: 
 - This program requires python3 with version 3.11 (NOT 3.12) to be installed. 
+  - You can switch python versions by using a python manager such as pyenv
 - Step 6 (putting in the API key) must be completed before dune test can be run
 
 1. Navigate to the cs3110-final-real (root) folder in terminal
@@ -14,7 +15,8 @@ python3 -m venv venv
 source venv/bin/activate
 pip3 install openai
 
-6. Go to APIKEY.txt and copy the key to lib/question.ml on line 57, in the empty ""
+6. Go to APIKEY.txt and copy the key to lib/question.ml on line 67, in the empty ""
+- For clarification, it should be in the empty quotations in (Py.String.of_string "");
 
 7. Type in "dune exec bin/main.exe" into the terminal
 
